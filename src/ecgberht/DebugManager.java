@@ -281,7 +281,7 @@ public class DebugManager {
         debugText(gs);
     }
 }
-
+"changed test"
 public abstract class TextSetting{
     private boolean setting;
     
