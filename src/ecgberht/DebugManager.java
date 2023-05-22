@@ -29,7 +29,7 @@ public class DebugManager {
         this.iH = iH;
         this.skycladObserver = skycladObserver;
     }
-    //refactoring 중인 부분 (switch case문)
+    //refactoring : template method pattern (switch case)
     public void keyboardInteraction(String text) {
         setInteractionText(text);
         _textsetting.doInteraction(CameraModule skycladObserver);
@@ -281,7 +281,7 @@ public class DebugManager {
         debugText(gs);
     }
 }
-"changed test"
+
 public abstract class TextSetting{
     private boolean setting;
     
@@ -309,13 +309,7 @@ public class TextSetting_ds extends TextSetting{
         ConfigManager.getConfig().ecgConfig.debugScreen = !setting;
     }
 }
-public class TextSetting_ds extends TextSetting{
-    public void doInteraction(CameraModule skycladObserver){
-        setting = ConfigManager.getConfig().ecgConfig.debugScreen;
-        Util.sendText(!setting ? "debugScreen enabled" : "debugScreen disabled");
-        ConfigManager.getConfig().ecgConfig.debugScreen = !setting;
-    }
-}
+
 public class TextSetting_obs extends TextSetting{
     public void doInteraction(CameraModule skycladObserver){
         setting = ConfigManager.getConfig().ecgConfig.enableSkyCladObserver;
