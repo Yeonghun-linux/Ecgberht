@@ -331,32 +331,11 @@ public class TextSetting_sounds extends TextSetting{
         ConfigManager.getConfig().ecgConfig.sounds = !setting;
     }
 }
-        switch (text) {
-            case "dt":
-                
-                break;
-            case "dc":
-                
-                break;
-            case "ds":
-                
-                break;
-            case "obs":
-                setting = ConfigManager.getConfig().ecgConfig.enableSkyCladObserver;
-                Util.sendText(!setting ? "Observer enabled" : "Observer disabled");
-                ConfigManager.getConfig().ecgConfig.enableSkyCladObserver = !setting;
-                skycladObserver.toggle();
-                break;
-            case "sounds":
-                setting = ConfigManager.getConfig().ecgConfig.sounds;
-                Util.sendText(!setting ? "Sounds Effects enabled" : "Sounds Effects disabled");
-                ConfigManager.getConfig().ecgConfig.sounds = !setting;
-                break;
-            case "noattack":
-                setting = ConfigManager.getConfig().ecgConfig.debugDisableAttack;
-                Util.sendText(!setting ? "Debug Attack enabled" : "Debug Attack disabled");
-                ConfigManager.getConfig().ecgConfig.debugDisableAttack = !setting;
-                break;
-        }
+public class TextSetting_noattack extends TextSetting{
+    public void doInteraction(CameraModule skycladObserver){
+        setting = ConfigManager.getConfig().ecgConfig.debugDisableAttack;
+        Util.sendText(!setting ? "Debug Attack enabled" : "Debug Attack disabled");
+        ConfigManager.getConfig().ecgConfig.debugDisableAttack = !setting;
     }
 }
+       
