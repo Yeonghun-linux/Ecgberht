@@ -284,52 +284,55 @@ public class DebugManager {
 
 public abstract class TextSetting{
     private boolean setting;
-    
-    public abstract void doInteraction(CameraModule skycladObserver);
+    private abstract String setting_name;
+    private abstract String sending_name;
+
+    //setting config manager
+    private String setting_default =  'setting = ConfigManager.getConfig().ecgConfig.';
+    private String setting_ConfigManager = setting_default + setting_name+";"
+
+    //sending Text
+    private String sending_Text_enabled = sending_name +" enabled"
+    private String sending_Text_disabled = sending_name +" disabled"
+
+    //setting_debugText
+    private String setting_debugText = "ConfigManager.getConfig().ecgConfig." + setting_name+"= !setting;"
+
+    public void doInteraction(CameraModule skycladObserver){
+        exec(setting_ConfigManager);
+        Util.sendText(!setting ? sending_Text_enabled : sending_Text_disabled );
+        exec(setting_debugText);
+    }
 }
 
 public class TextSetting_dt extends TextSetting{
-    public void doInteraction(CameraModule skycladObserver){
-        setting = ConfigManager.getConfig().ecgConfig.debugText;
-        Util.sendText(!setting ? "debugText enabled" : "debugText disabled");
-        ConfigManager.getConfig().ecgConfig.debugText = !setting;
-    }
+    setting_name = "debugText";
+    sending_name = "debugText";
 }
 public class TextSetting_dc extends TextSetting{
-    public void doInteraction(CameraModule skycladObserver){
-        setting = ConfigManager.getConfig().ecgConfig.debugConsole;
-        Util.sendText(!setting ? "debugConsole enabled" : "debugConsole disabled");
-        ConfigManager.getConfig().ecgConfig.debugConsole = !setting;
-    }
+    setting_name = "debugConsole";
+    sending_name = "debugConsole";
 }
 public class TextSetting_ds extends TextSetting{
-    public void doInteraction(CameraModule skycladObserver){
-        setting = ConfigManager.getConfig().ecgConfig.debugScreen;
-        Util.sendText(!setting ? "debugScreen enabled" : "debugScreen disabled");
-        ConfigManager.getConfig().ecgConfig.debugScreen = !setting;
-    }
+    setting_name = "debugScreen";
+    sending_name = "debugScreen";
 }
-
 public class TextSetting_obs extends TextSetting{
+    setting_name = 'enableSkyCladObserver';
+    sending_name = "Observer";
+
+    @Override
     public void doInteraction(CameraModule skycladObserver){
-        setting = ConfigManager.getConfig().ecgConfig.enableSkyCladObserver;
-        Util.sendText(!setting ? "Observer enabled" : "Observer disabled");
-        ConfigManager.getConfig().ecgConfig.enableSkyCladObserver = !setting;
+        super.doInteraction()
         skycladObserver.toggle();
     }
 }
 public class TextSetting_sounds extends TextSetting{
-    public void doInteraction(CameraModule skycladObserver){
-        setting = ConfigManager.getConfig().ecgConfig.sounds;
-        Util.sendText(!setting ? "Sounds Effects enabled" : "Sounds Effects disabled");
-        ConfigManager.getConfig().ecgConfig.sounds = !setting;
-    }
+    setting_name = "sounds";
+    sending_name = "Sounds";
 }
 public class TextSetting_noattack extends TextSetting{
-    public void doInteraction(CameraModule skycladObserver){
-        setting = ConfigManager.getConfig().ecgConfig.debugDisableAttack;
-        Util.sendText(!setting ? "Debug Attack enabled" : "Debug Attack disabled");
-        ConfigManager.getConfig().ecgConfig.debugDisableAttack = !setting;
-    }
+    setting_name = "debugDisableAttack";
+    sending_name = "Debug Attack";
 }
        
