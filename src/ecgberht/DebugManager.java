@@ -78,7 +78,7 @@ public class DebugManager {
             for (Unit u : gameState.islandCCs.values()) {
                 print(u, Color.YELLOW);
             }
-            //수정2)  if, else if문의 구조가 유사함
+            
             for (Agent ag : gameState.agents.values()) {
                 if (ag instanceof VultureAgent) {
                     VultureAgent vulture = (VultureAgent) ag;
