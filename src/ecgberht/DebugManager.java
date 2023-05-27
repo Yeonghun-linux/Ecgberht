@@ -29,7 +29,7 @@ public class DebugManager {
         this.iH = iH;
         this.skycladObserver = skycladObserver;
     }
-    //refactoring : template method pattern (switch case)
+
     public void keyboardInteraction(String text) {
         setInteractionText(text);
         _textsetting.doInteraction(CameraModule skycladObserver);
