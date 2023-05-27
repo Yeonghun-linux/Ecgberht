@@ -77,7 +77,7 @@ public class SimulationTheory {
                 }
                 break;
             case Terran:
-                if (getGs().getStrat() != null && getGs().getStrat().proxy && radius == UnitType.Terran_Missile_Turret.airWeapon().maxRange()) {
+                if (getGs().getStrategyFromManager() != null && getGs().getStrategyFromManager().proxy && radius == UnitType.Terran_Missile_Turret.airWeapon().maxRange()) {
                     radius -= 32;
                 }
                 if (IntelligenceAgency.enemyHasType(UnitType.Terran_Siege_Tank_Tank_Mode)) {
@@ -119,7 +119,7 @@ public class SimulationTheory {
         // Enemy Clusters
         List<UnitInfo> enemyUnits = new ArrayList<>();
         for (UnitInfo u : getGs().unitStorage.getEnemyUnits().values()) {
-            if (getGs().getStrat().proxy && u.unitType.isWorker() && (Util.isInOurBases(u) && !u.unit.isAttacking()))
+            if (getGs().getStrategyFromManager().proxy && u.unitType.isWorker() && (Util.isInOurBases(u) && !u.unit.isAttacking()))
                 continue;
             if (u.unitType == UnitType.Zerg_Larva || (u.unitType == UnitType.Zerg_Egg && !u.player.isNeutral()))
                 continue;
@@ -134,7 +134,7 @@ public class SimulationTheory {
     private boolean isArmyUnit(Unit u) {
         try {
             if (u == null || !u.exists()) return false;
-            if (u instanceof SCV && (getGs().getStrat().name.equals("ProxyBBS") || getGs().getStrat().name.equals("ProxyEightRax")))
+            if (u instanceof SCV && (getGs().getStrategyFromManager().name.equals("ProxyBBS") || getGs().getStrategyFromManager().name.equals("ProxyEightRax")))
                 return true;
             if (u instanceof MobileUnit && ((MobileUnit) u).getTransport() != null) return false;
             return u instanceof Marine || u instanceof Medic || u instanceof SiegeTank || u instanceof Firebat
@@ -293,8 +293,8 @@ public class SimulationTheory {
                 s.stateAfter = new MutablePair<>(simulator.getAgentsA(), simulator.getAgentsB());
                 //Bad lose sim logic, testing
                 if (s.stateAfter.first.isEmpty()) s.lose = true;
-                else if (getGs().getStrat().name.equals("ProxyBBS")) s.lose = !scoreCalcASS(s, 1.2);
-                else if (getGs().getStrat().name.equals("ProxyEightRax")) s.lose = !scoreCalcASS(s, 1.35);
+                else if (getGs().getStrategyFromManager().name.equals("ProxyBBS")) s.lose = !scoreCalcASS(s, 1.2);
+                else if (getGs().getStrategyFromManager().name.equals("ProxyEightRax")) s.lose = !scoreCalcASS(s, 1.35);
                 else s.lose = !scoreCalcASS(s, 2);
             } catch (Exception e) {
                 System.err.println("Simulator ASS exception");
