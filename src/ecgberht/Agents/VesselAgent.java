@@ -57,32 +57,12 @@ public class VesselAgent extends Agent implements Comparable<Unit> {
                 retreat();
                 return false;
             }
-            switch (status) {
-                case DMATRIX:
-                    if (unitInfo.energy <= TechType.Defensive_Matrix.energyCost()) {
-                        getGs().wizard.irradiatedUnits.remove(unit);
-                        status = Status.IDLE;
-                        target = null;
-                        oldTarget = null;
-                    }
-                    break;
-                case IRRADIATE:
-                    if (unitInfo.energy <= TechType.Irradiate.energyCost()) {
-                        getGs().wizard.irradiatedUnits.remove(unit);
-                        status = Status.IDLE;
-                        target = null;
-                        oldTarget = null;
-                    }
-                    break;
-                case EMP:
-                    if (unitInfo.energy <= TechType.EMP_Shockwave.energyCost()) {
-                        getGs().wizard.EMPedUnits.remove(unit);
-                        status = Status.IDLE;
-                        target = null;
-                        oldTarget = null;
-                    }
-                    break;
-            }
+            //여기 수정중 : 이거 "과학선"의 능력. defensive matrix, 방사선, emp 충격파에 대한 내용인듯
+            if(status == DMATRIX) statusChange_DMATRIX();
+            if(status == DMATRIX) statusChange_IRRADIATE();
+            if(status == DMATRIX) statusChange_EMP();
+       
+   
             center = follow.getSquadCenter();
             getNewStatus();
             switch (status) {
@@ -358,4 +338,34 @@ public class VesselAgent extends Agent implements Comparable<Unit> {
 
     enum Status {DMATRIX, KITE, FOLLOW, IDLE, RETREAT, IRRADIATE, HOVER, EMP}
 
+    private void statusChange_DMATRIX(){
+        if (unitInfo.energy <= TechType.Defensive_Matrix.energyCost()) {
+            getGs().wizard.irradiatedUnits.remove(unit);
+            status = Status.IDLE;
+            target = null;
+            oldTarget = null;
+        }
+    }
+    private void statusChange_IRRADIATE(){
+        if (unitInfo.energy <= TechType.Irradiate.energyCost()) {
+            getGs().wizard.irradiatedUnits.remove(unit);
+            status = Status.IDLE;
+            target = null;
+            oldTarget = null;
+        }
+    }
+    private void statusChange_EMP(){
+        if (unitInfo.energy <= TechType.EMP_Shockwave.energyCost()) {
+            getGs().wizard.EMPedUnits.remove(unit);
+            status = Status.IDLE;
+            target = null;
+            oldTarget = null;
+        }
+    }
+
 }
+
+
+
+
+
