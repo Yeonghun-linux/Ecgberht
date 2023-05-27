@@ -59,7 +59,7 @@ public class VesselAgent extends Agent implements Comparable<Unit> {
                 retreat();
                 return false;
             }
-            //여기 수정중 : 이거 "과학선"의 능력. defensive matrix, 방사선, emp 충격파에 대한 내용인듯
+            
             if(status == DMATRIX) statusChange_DMATRIX();
             if(status == DMATRIX) statusChange_IRRADIATE();
             if(status == DMATRIX) statusChange_EMP();
