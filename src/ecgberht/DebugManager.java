@@ -29,7 +29,7 @@ public class DebugManager {
         this.iH = iH;
         this.skycladObserver = skycladObserver;
     }
-    //refactoring : template method pattern (switch case)
+
     public void keyboardInteraction(String text) {
         setInteractionText(text);
         _textsetting.doInteraction(CameraModule skycladObserver);
@@ -78,7 +78,7 @@ public class DebugManager {
             for (Unit u : gameState.islandCCs.values()) {
                 print(u, Color.YELLOW);
             }
-            //수정2)  if, else if문의 구조가 유사함
+            
             for (Agent ag : gameState.agents.values()) {
                 if (ag instanceof VultureAgent) {
                     VultureAgent vulture = (VultureAgent) ag;
