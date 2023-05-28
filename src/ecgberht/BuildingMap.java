@@ -190,53 +190,31 @@ public class BuildingMap implements Cloneable {
                 }
             }
         }
-        for (int jj = height - 1; jj > 0; jj--) {
-            for (int ii = width - 1; ii > 0; ii--) {
-                if (map[jj][ii].equals("B") || map[jj][ii].equals("0") || map[jj][ii].equals("M")
-                        || map[jj][ii].equals("V") || map[jj][ii].equals("E")) {
-                    if (map[jj - 1][ii].equals("6")) map[jj - 1][ii] = "1";
-                    if (map[jj][ii - 1].equals("6")) map[jj][ii - 1] = "1";
-                    if (map[jj - 1][ii - 1].equals("6")) map[jj - 1][ii - 1] = "1";
-                }
-            }
-        }
-        for (int jj = height - 1; jj > 0; jj--) {
-            for (int ii = width - 1; ii > 0; ii--) {
-                if (map[jj][ii].equals("1")) {
-                    if (map[jj - 1][ii].equals("6")) map[jj - 1][ii] = "2";
-                    if (map[jj][ii - 1].equals("6")) map[jj][ii - 1] = "2";
-                    if (map[jj - 1][ii - 1].equals("6")) map[jj - 1][ii - 1] = "2";
-                }
-            }
-        }
-        for (int jj = height - 1; jj > 0; jj--) {
-            for (int ii = width - 1; ii > 0; ii--) {
-                if (map[jj][ii].equals("2")) {
-                    if (map[jj - 1][ii].equals("6")) map[jj - 1][ii] = "3";
-                    if (map[jj][ii - 1].equals("6")) map[jj][ii - 1] = "3";
-                    if (map[jj - 1][ii - 1].equals("6")) map[jj - 1][ii - 1] = "3";
-                }
-            }
-        }
-        for (int jj = height - 1; jj > 0; jj--) {
-            for (int ii = width - 1; ii > 0; ii--) {
-                if (map[jj][ii].equals("3")) {
-                    if (map[jj - 1][ii].equals("6")) map[jj - 1][ii] = "4";
-                    if (map[jj][ii - 1].equals("6")) map[jj][ii - 1] = "4";
-                    if (map[jj - 1][ii - 1].equals("6")) map[jj - 1][ii - 1] = "4";
-                }
-            }
-        }
-        for (int jj = height - 1; jj > 0; jj--) {
-            for (int ii = width - 1; ii > 0; ii--) {
-                if (map[jj][ii].equals("4")) {
-                    if (map[jj - 1][ii].equals("6")) map[jj - 1][ii] = "5";
-                    if (map[jj][ii - 1].equals("6")) map[jj][ii - 1] = "5";
-                    if (map[jj - 1][ii - 1].equals("6")) map[jj - 1][ii - 1] = "5";
-                }
-            }
-        }
+        boolean condition_compareWithB0MVE = ( map[jj][ii].equals("B") || map[jj][ii].equals("0") || map[jj][ii].equals("M")
+                                                || map[jj][ii].equals("V") || map[jj][ii].equals("E") );
+        boolean condition_compareWithOne = map[jj][ii].equals("1");
+        boolean condition_compareWithTwo = map[jj][ii].equals("2");
+        boolean condition_compareWithThree = map[jj][ii].equals("3");
+        boolean condition_compareWithFour = map[jj][ii].equals("4");
+    
+
+        ChangeMapType(height,width, condition_compareWithB0MVE,"1");
+        ChangeMapType(height,width, condition_compareWithOne,"2");
+        ChangeMapType(height,width, condition_compareWithTwo,"3");
+        ChangeMapType(height,width, condition_compareWithThree,"4");
+        ChangeMapType(height,width, condition_compareWithFour,"5");
         return map;
+    }
+    public void ChangeMapType(int height, int width, boolean equalCondition, String changeNumber){
+        for (int jj = height - 1; jj > 0; jj--) {
+            for (int ii = width - 1; ii > 0; ii--) {
+                if ( equalCondition ) {
+                    if (map[jj - 1][ii].equals("6")) map[jj - 1][ii] = changeNumber;
+                    if (map[jj][ii - 1].equals("6")) map[jj][ii - 1] = changeNumber;
+                    if (map[jj - 1][ii - 1].equals("6")) map[jj - 1][ii - 1] = changeNumber;
+                }
+            }
+        }
     }
 
     // Updates a portion of the map around the building

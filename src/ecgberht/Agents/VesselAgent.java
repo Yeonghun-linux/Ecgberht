@@ -3,6 +3,7 @@ package ecgberht.Agents;
 import ecgberht.Simulation.SimInfo;
 import ecgberht.Squad;
 import ecgberht.UnitInfo;
+import ecgberht.UnitInfoDistance;
 import ecgberht.Util.Util;
 import ecgberht.Util.UtilMicro;
 import org.openbw.bwapi4j.Position;
@@ -29,6 +30,7 @@ public class VesselAgent extends Agent implements Comparable<Unit> {
     public VesselAgent(Unit unit) {
         super(unit);
         this.unit = (ScienceVessel) unit;
+
     }
 
     public String statusToString() {
@@ -57,32 +59,12 @@ public class VesselAgent extends Agent implements Comparable<Unit> {
                 retreat();
                 return false;
             }
-            switch (status) {
-                case DMATRIX:
-                    if (unitInfo.energy <= TechType.Defensive_Matrix.energyCost()) {
-                        getGs().wizard.irradiatedUnits.remove(unit);
-                        status = Status.IDLE;
-                        target = null;
-                        oldTarget = null;
-                    }
-                    break;
-                case IRRADIATE:
-                    if (unitInfo.energy <= TechType.Irradiate.energyCost()) {
-                        getGs().wizard.irradiatedUnits.remove(unit);
-                        status = Status.IDLE;
-                        target = null;
-                        oldTarget = null;
-                    }
-                    break;
-                case EMP:
-                    if (unitInfo.energy <= TechType.EMP_Shockwave.energyCost()) {
-                        getGs().wizard.EMPedUnits.remove(unit);
-                        status = Status.IDLE;
-                        target = null;
-                        oldTarget = null;
-                    }
-                    break;
-            }
+            
+            if(status == DMATRIX) statusChange_DMATRIX();
+            if(status == DMATRIX) statusChange_IRRADIATE();
+            if(status == DMATRIX) statusChange_EMP();
+       
+   
             center = follow.getSquadCenter();
             getNewStatus();
             switch (status) {
@@ -126,7 +108,7 @@ public class VesselAgent extends Agent implements Comparable<Unit> {
         Squad chosen = null;
         double scoreMax = Double.MIN_VALUE;
         for (Squad s : getGs().sqManager.squads.values()) {
-            double dist = unitInfo.getDistance(s.getSquadCenter());
+            double dist = unitInfo.toUnitInfoDistance().getDistance(s.getSquadCenter());
             double score = -Math.pow(s.members.size(), 3) / dist;
             if (chosen == null || score > scoreMax) {
                 chosen = s;
@@ -214,7 +196,7 @@ public class VesselAgent extends Agent implements Comparable<Unit> {
         if (getGs().enemyRace == Race.Zerg && !mySimAir.enemies.isEmpty()) {
             for (UnitInfo u : mySimAir.enemies) {
                 if (u.unit instanceof Scourge && u.target.equals(unit)) chasenByScourge = true;
-                else if (u.unit instanceof SporeColony && unitInfo.getDistance(u) < u.airRange * 1.2)
+                else if (u.unit instanceof SporeColony && unitInfo.toUnitInfoDistance().getDistance(u) < u.airRange * 1.2)
                     sporeColony = true;
                 if (chasenByScourge && sporeColony) break;
             }
@@ -237,7 +219,7 @@ public class VesselAgent extends Agent implements Comparable<Unit> {
                     int closeUnits = 0;
                     for (UnitInfo close : irradiateTargets) {
                         if (u.equals(close) || !(close.unit instanceof Organic) || close.burrowed) continue;
-                        if (u.getDistance(close) <= 32) closeUnits++;
+                        if (u.toUnitInfoDistance().getDistance(close) <= 32) closeUnits++;
                     }
                     if (u.unitType == UnitType.Zerg_Lurker) score = u.burrowed ? 20 : 18; // Kill it with fire!!
                     else if (u.unitType == UnitType.Zerg_Mutalisk) score = 8;
@@ -358,4 +340,34 @@ public class VesselAgent extends Agent implements Comparable<Unit> {
 
     enum Status {DMATRIX, KITE, FOLLOW, IDLE, RETREAT, IRRADIATE, HOVER, EMP}
 
+    private void statusChange_DMATRIX(){
+        if (unitInfo.energy <= TechType.Defensive_Matrix.energyCost()) {
+            getGs().wizard.irradiatedUnits.remove(unit);
+            status = Status.IDLE;
+            target = null;
+            oldTarget = null;
+        }
+    }
+    private void statusChange_IRRADIATE(){
+        if (unitInfo.energy <= TechType.Irradiate.energyCost()) {
+            getGs().wizard.irradiatedUnits.remove(unit);
+            status = Status.IDLE;
+            target = null;
+            oldTarget = null;
+        }
+    }
+    private void statusChange_EMP(){
+        if (unitInfo.energy <= TechType.EMP_Shockwave.energyCost()) {
+            getGs().wizard.EMPedUnits.remove(unit);
+            status = Status.IDLE;
+            target = null;
+            oldTarget = null;
+        }
+    }
+
 }
+
+
+
+
+

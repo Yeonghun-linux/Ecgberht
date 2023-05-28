@@ -122,9 +122,11 @@ public class SimulationTheory {
         List<UnitInfo> enemyUnits = new ArrayList<>();
 
         for (UnitInfo u : getGs().unitStorage.getEnemyUnits().values()) {
+
             boolean is_proxy_strategy = getGs().getStrat().proxy;
             boolean is_less_than_four_seconds = getGs().frameCount - u.lastVisibleFrame <= 24 * 4;
             if (is_proxy_strategy && u.unitType.isWorker() && (Util.isInOurBases(u) && !u.unit.isAttacking()))
+
                 continue;
             if (u.unitType == UnitType.Zerg_Larva || (u.unitType == UnitType.Zerg_Egg && !u.player.isNeutral()))
                 continue;
@@ -152,6 +154,7 @@ public class SimulationTheory {
         boolean is_equal_proxyEightRax_strategy = getGs().getStrat().name.equals("ProxyEightRax");
         try {
             if (u == null || !u.exists()) return false;
+
             if (u instanceof SCV && (is_equal_proxyBBS_strategy || is_equal_proxyEightRax_strategy))
                 return true;
             if (u instanceof MobileUnit && ((MobileUnit) u).getTransport() != null) return false;
@@ -303,6 +306,7 @@ public class SimulationTheory {
                 s.stateAfter = new MutablePair<>(simulator.getAgentsA(), simulator.getAgentsB());
 
                 if (s.stateAfter.first.isEmpty()) s.lose = true;
+
                 else if (getGs().getStrat().name.equals("ProxyBBS")) s.lose = !scoreCalcASS(s, 1.2);
                 else if (getGs().getStrat().name.equals("ProxyEightRax")) s.lose = !scoreCalcASS(s, 1.35);
 
