@@ -257,31 +257,25 @@ public class StrategyManager {
 
     private Strategy initStrat() {
         try {
-            LearningManager.EnemyInfo enemyInfo = getGs().learningManager.getEnemyInfo();
-            String forcedStrategy = ConfigManager.getConfig().ecgConfig.forceStrat;
-            final boolean strategyNull = !forcedStrategy.equals("");
-			if (strategyNull) {
-                final boolean isStrategyRandom = forcedStrategy.toLowerCase().equals("random");
-				if (isStrategyRandom) {
+            EnemyInfo EI = getGs().learningManager.getEnemyInfo();
+            String forcedStrat = ConfigManager.getConfig().ecgConfig.forceStrat;
+            if (!forcedStrat.equals("")) {
+                if (forcedStrat.toLowerCase().equals("random")) {
                     Strategy randomStrategy = this.getRandomStrategy();
                     Util.sendText("Picked random strategy " + randomStrategy.name);
                     return randomStrategy;
-                } else {
-					final boolean forcedStrategyInStrategies = nameOfStrategies.containsKey(forcedStrategy);
-					if (forcedStrategyInStrategies) {
-					    Util.sendText("Picked forced strategy " + forcedStrategy);
-					    final boolean isForcedStrategy14CC = forcedStrategy.equals("14CC");
-						if (isForcedStrategy14CC) {
-					        for (LearningManager.EnemyInfo.StrategyOpponentHistory learningManager : enemyInfo.history) {
-					            if (strategies.containsKey(learningManager.strategyName)) {
-					                strategies.get(learningManager.strategyName).first += learningManager.wins;
-					                strategies.get(learningManager.strategyName).second += learningManager.losses;
-					            }
-					        }
-					    }
-					    return nameOfStrategies.get(forcedStrategy);
-					}
-				}
+                } else if (nameStrat.containsKey(forcedStrat)) {
+                    Util.sendText("Picked forced strategy " + forcedStrat);
+                    if (forcedStrat.equals("14CC")) {
+                        for (EnemyInfo.StrategyOpponentHistory r : EI.history) {
+                            if (strategies.containsKey(r.strategyName)) {
+                                strategies.get(r.strategyName).first += r.wins;
+                                strategies.get(r.strategyName).second += r.losses;
+                            }
+                        }
+                    }
+                    return nameStrat.get(forcedStrat);
+                }
             }
             final boolean isHumanMode = ConfigManager.getConfig().ecgConfig.humanMode;
 			final boolean isRandomLtFive = Math.round(Math.random() * 10) < 5;
@@ -301,11 +295,11 @@ public class StrategyManager {
                 return bFE;
             }
             removeStrategiesMapSpecific();
-            int totalGamesPlayed = enemyInfo.wins + enemyInfo.losses;
-            for (LearningManager.EnemyInfo.StrategyOpponentHistory learningManager : enemyInfo.history) {
-                if (strategies.containsKey(learningManager.strategyName)) {
-                    strategies.get(learningManager.strategyName).first += learningManager.wins;
-                    strategies.get(learningManager.strategyName).second += learningManager.losses;
+            int totalGamesPlayed = EI.wins + EI.losses;
+            for (EnemyInfo.StrategyOpponentHistory r : EI.history) {
+                if (strategies.containsKey(r.strategyName)) {
+                    strategies.get(r.strategyName).first += r.wins;
+                    strategies.get(r.strategyName).second += r.losses;
                 }
             }
             double maxWinRate = 0.0;
