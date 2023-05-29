@@ -59,37 +59,22 @@ public class VesselAgent extends Agent implements Comparable<Unit> {
                 retreat();
                 return false;
             }
-            
             if(status == DMATRIX) statusChange_DMATRIX();
-            if(status == DMATRIX) statusChange_IRRADIATE();
-            if(status == DMATRIX) statusChange_EMP();
+            else if(status == IRRADIATE) statusChange_IRRADIATE();
+            else if(status == EMP) statusChange_EMP();
        
    
             center = follow.getSquadCenter();
             getNewStatus();
-            switch (status) {
-                case IRRADIATE:
-                    irradiate();
-                    break;
-                case DMATRIX:
-                    dMatrix();
-                    break;
-                case KITE:
-                    kite();
-                    break;
-                case FOLLOW:
-                    followSquad();
-                    break;
-                case RETREAT:
-                    retreat();
-                    break;
-                case HOVER:
-                    hover();
-                    break;
-                case EMP:
-                    emp();
-                    break;
-            }
+
+            if(status == IRRADIATE) irradiate();
+            else if(status == DMATRIX) dMatrix();
+            else if(status == KITE) kite();
+            else if(status == FOLLOW) followSquad();
+            else if(status == RETREAT) retreat();
+            else if(status == HOVER) hover();
+            else if(status == EMP) emp();
+
             return false;
         } catch (Exception e) {
             System.err.println("Exception VesselAgent");
