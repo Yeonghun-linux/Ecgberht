@@ -201,42 +201,20 @@ public class BuildingMap implements Cloneable {
             }
         }
         
-    
+        FactoryChangeMapType factoryChangeMapType = new FactoryChangeMapType();
 
-        ChangeMapType(height,width, "B0MVE","1");
-        ChangeMapType(height,width, "ONE","2");
-        ChangeMapType(height,width, "TWO","3");
-        ChangeMapType(height,width, "THREE","4");
-        ChangeMapType(height,width, "FOUR","5");
+        ChangeMapType changeMapType_compareWithB0MVE = factoryChangeMapType.getInstance(height,width,"BOMVE",map);
+        map = changeMapType_compareWithB0MVE.getMap();
+        ChangeMapType changeMapType_compareWithOne = factoryChangeMapType.getInstance(height,width,"ONE",map);
+        map = changeMapType_compareWithOne.getMap();
+        ChangeMapType changeMapType_compareWithTwo = factoryChangeMapType.getInstance(height,width,"TWO",map);
+        map = changeMapType_compareWithTwo.getMap();
+        ChangeMapType changeMapType_compareWithThree = factoryChangeMapType.getInstance(height,width,"THREEE",map);
+        map = changeMapType_compareWithThree.getMap();
+        ChangeMapType changeMapType_compareWithFour = factoryChangeMapType.getInstance(height,width,"FOUR",map);
+        map = changeMapType_compareWithFour.getMap();
+
         return map;
-    }
-    public void ChangeMapType(int height, int width, String condition, String changeNumber){
-        int map_x;
-        int map_y;
-        
-        boolean equalCondition=false;
-        for (int map_x = height - 1; map_x > 0; map_x--) {
-            for (int map_y = width - 1; map_y > 0; map_y--) {
-                boolean condition_compareWithB0MVE = ( map[map_x][map_y].equals("B") || map[map_x][map_y].equals("0") || map[map_x][map_y].equals("M")
-                                                || map[map_x][map_y].equals("V") || map[map_x][map_y].equals("E") );
-                boolean condition_compareWithOne = map[map_x][map_y].equals("1");
-                boolean condition_compareWithTwo = map[map_x][map_y].equals("2");
-                boolean condition_compareWithThree = map[map_x][map_y].equals("3");
-                boolean condition_compareWithFour = map[map_x][map_y].equals("4");
-
-                if(condition.equals("B0MVE")) equalCondition = condition_compareWithB0MVE;
-                else if(condition.equals("ONE")) equalCondition = condition_compareWithOne;
-                else if(condition.equals("TWO")) equalCondition = condition_compareWithTwo;
-                else if(condition.equals("THREE")) equalCondition = condition_compareWithThree;
-                else if(condition.equals("FOUR")) equalCondition = condition_compareWithFour;
-
-                if ( equalCondition ) {
-                    if (map[map_x - 1][map_y].equals("6")) map[map_x - 1][map_yi] = changeNumber;
-                    if (map[map_x][map_y - 1].equals("6")) map[map_x][map_y - 1] = changeNumber;
-                    if (map[map_x - 1][map_y - 1].equals("6")) map[map_x - 1][map_y - 1] = changeNumber;
-                }
-            }
-        }
     }
 
     // Updates a portion of the map around the building
@@ -531,6 +509,118 @@ public class BuildingMap implements Cloneable {
             double dist1 = o1.getDistance(center);
             double dist2 = o2.getDistance(center);
             return dist1 < dist2 ? -1 : 1;
+        }
+    }
+}
+
+public abstract class ChangeMapType{
+    protected String[][] map;
+    protected height;
+    protected width;
+    public String[][] getMap() {
+        return map;
+        }     
+}
+
+public class FactoryChangeMapType{
+    public ChangeMapType getInstance(int height, int width, String condition, String[][] map){
+        if(condition.equals("B0MVE")) return new ChangeMapType_compareWithB0MVE(height,width,map);
+        else if(condition.equals("ONE")) return new ChangeMapType_compareWithOne(height,width,map);
+        else if(condition.equals("TWO")) return new ChangeMapType_compareWithTwo(height,width,map);
+        else if(condition.equals("THREE")) return new ChangeMapType_compareWithThree(height,width,map);
+        else if(condition.equals("FOUR")) return new ChangeMapType_compareWithFour(height,width,map);
+    }
+}
+
+public class ChangeMapType_compareWithB0MVE extends ChangeMapType{
+    public ChangeMapType_compareWithB0MVE(int map_height, int map_width, String[][] mapping){
+        map = mapping;
+        height = map_height;
+        width = map_width;
+
+        for (int map_x = height - 1; map_x > 0; map_x--) {
+            for (int map_y = width - 1; map_y > 0; map_y--) {
+                boolean condition_compareWithB0MVE = ( map[map_x][map_y].equals("B") || map[map_x][map_y].equals("0") || map[map_x][map_y].equals("M")
+                                                || map[map_x][map_y].equals("V") || map[map_x][map_y].equals("E") );
+                if ( condition_compareWithB0MVE ) {
+                    if (map[map_x - 1][map_y].equals("6")) map[map_x - 1][map_yi] = "1";
+                    if (map[map_x][map_y - 1].equals("6")) map[map_x][map_y - 1] = "1";
+                    if (map[map_x - 1][map_y - 1].equals("6")) map[map_x - 1][map_y - 1] = "1";
+                }
+            }
+        }
+    }
+}
+public class ChangeMapType_compareWithOne extends ChangeMapType{
+    public ChangeMapType_compareWithOne(int map_height, int map_width, String[][] mapping){
+        map = mapping;
+        height = map_height;
+        width = map_width;
+
+        for (int map_x = height - 1; map_x > 0; map_x--) {
+            for (int map_y = width - 1; map_y > 0; map_y--) {
+                boolean condition_compareWithOne = map[map_x][map_y].equals("1");
+                if ( condition_compareWithOne ) {
+                    if (map[map_x - 1][map_y].equals("6")) map[map_x - 1][map_yi] = "2";
+                    if (map[map_x][map_y - 1].equals("6")) map[map_x][map_y - 1] = "2";
+                    if (map[map_x - 1][map_y - 1].equals("6")) map[map_x - 1][map_y - 1] = "2";
+                }
+            }
+        }
+    }
+}
+public class ChangeMapType_compareWithTwo extends ChangeMapType{
+    public ChangeMapType_compareWithTwo(int map_height, int map_width, String[][] mapping){
+        map = mapping;
+        height = map_height;
+        width = map_width;
+
+        for (int map_x = height - 1; map_x > 0; map_x--) {
+            for (int map_y = width - 1; map_y > 0; map_y--) {
+                boolean condition_compareWithTwo = map[map_x][map_y].equals("2");
+                if ( condition_compareWithTwo ) {
+                    if (map[map_x - 1][map_y].equals("6")) map[map_x - 1][map_yi] = "3";
+                    if (map[map_x][map_y - 1].equals("6")) map[map_x][map_y - 1] = "3";
+                    if (map[map_x - 1][map_y - 1].equals("6")) map[map_x - 1][map_y - 1] = "3";
+                }
+            }
+        }
+    }
+}
+public class ChangeMapType_compareWithThree extends ChangeMapType{
+    public ChangeMapType_compareWithThree(int map_height, int map_width, String[][] mapping){
+        map = mapping;
+        height = map_height;
+        width = map_width;
+
+        for (int map_x = height - 1; map_x > 0; map_x--) {
+            for (int map_y = width - 1; map_y > 0; map_y--) {
+                boolean condition_compareWithThree = map[map_x][map_y].equals("3");
+                if ( condition_compareWithThree ) {
+                    if (map[map_x - 1][map_y].equals("6")) map[map_x - 1][map_yi] = "3";
+                    if (map[map_x][map_y - 1].equals("6")) map[map_x][map_y - 1] = "3";
+                    if (map[map_x - 1][map_y - 1].equals("6")) map[map_x - 1][map_y - 1] = "3";
+                }
+            }
+        }
+    }
+}
+
+public class ChangeMapType_compareWithFour extends ChangeMapType{
+    public ChangeMapType_compareWithFour(int map_height, int map_width, String[][] mapping){
+        map = mapping;
+        height = map_height;
+        width = map_width;
+
+        for (int map_x = height - 1; map_x > 0; map_x--) {
+            for (int map_y = width - 1; map_y > 0; map_y--) {
+                boolean condition_compareWithFour = map[map_x][map_y].equals("4");
+                if ( condition_compareWithThree ) {
+                    if (map[map_x - 1][map_y].equals("6")) map[map_x - 1][map_yi] = "4";
+                    if (map[map_x][map_y - 1].equals("6")) map[map_x][map_y - 1] = "4";
+                    if (map[map_x - 1][map_y - 1].equals("6")) map[map_x - 1][map_y - 1] = "4";
+                }
+            }
         }
     }
 }
