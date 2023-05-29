@@ -176,17 +176,27 @@ public class BuildingMap implements Cloneable {
             }
         }
         // Sets to "B" adjacent tiles to 0,M,V by the left and top with value "6"
-        for (int jj = height - 1; jj >= 0; jj--) {
-            for (int ii = width - 1; ii >= 0; ii--) {
-                if (map[jj][ii].equals("E") || map[jj][ii].equals("M") || map[jj][ii].equals("V")) {
-                    if (jj - 1 >= 0 && map[jj - 1][ii].equals("6")) map[jj - 1][ii] = "B";
-                    if (ii - 1 >= 0 && map[jj][ii - 1].equals("6")) map[jj][ii - 1] = "B";
-                    if (jj - 1 >= 0 && ii - 1 >= 0 && map[jj - 1][ii - 1].equals("6")) map[jj - 1][ii - 1] = "B";
-                    if (jj + 1 < height && map[jj + 1][ii].equals("6")) map[jj + 1][ii] = "B";
-                    if (ii + 1 < width && map[jj][ii + 1].equals("6")) map[jj][ii + 1] = "B";
-                    if (jj + 1 < height && ii + 1 < width && map[jj + 1][ii + 1].equals("6")) map[jj + 1][ii + 1] = "B";
-                    if (jj - 1 >= 0 && ii + 1 < width && map[jj - 1][ii + 1].equals("6")) map[jj - 1][ii + 1] = "B";
-                    if (jj + 1 < height && ii - 1 >= 0 && map[jj + 1][ii - 1].equals("6")) map[jj + 1][ii - 1] = "B";
+        for (int map_x = height - 1; map_x >= 0; map_x--) {
+            for (int map_y = width - 1; map_y >= 0; map_y--) {
+                boolean mapTypeEqual_EMV = map[map_x][map_y].equals("E") || map[map_x][map_y].equals("M") || map[map_x][map_y].equals("V");
+                boolean currentLeftEqualSix = map_x - 1 >= 0 && map[map_x - 1][map_y].equals("6");
+                boolean currentTopEqualSix = map_y - 1 >= 0 && map[map_x][map_y - 1].equals("6");
+                boolean currentDiagonallyUpperLeftEqualSix = map_x - 1 >= 0 && map_y - 1 >= 0 && map[map_x - 1][map_y - 1].equals("6");
+                boolean currentRightEqualSix = map_x + 1 < height && map[map_x + 1][map_y].equals("6");
+                boolean currenBottomEqualSix = map_y + 1 < width && map[map_x][map_y + 1].equals("6");
+                boolean currentDiagonallyLowerRightEqualSix = map_x + 1 < height && map_y + 1 < width && map[map_x + 1][map_y + 1].equals("6");
+                boolean currentDiagonallyLowerLeftEqualSix = map_x - 1 >= 0 && map_y + 1 < width && map[map_x - 1][map_y + 1].equals("6");
+                boolean currentDiagonallyUpperRightEqualSix = map_x + 1 < height && map_y - 1 >= 0 && map[map_x + 1][map_y - 1].equals("6");
+
+                if ( mapTypeEqual_EMV ) {
+                    if ( currentLeftEqualSix ) map[map_x - 1][map_y] = "B";
+                    if ( currentTopEqualSix ) map[map_x][map_y] = "B";
+                    if ( currentDiagonallyUpperLeftEqualSix ) map[map_x - 1][map_y - 1] = "B";
+                    if ( currentRightEqualSix ) map[map_x + 1][map_y] = "B";
+                    if ( currenBottomEqualSix ) map[map_x][map_y + 1] = "B";
+                    if ( currentDiagonallyLowerRightEqualSix ) map[map_x + 1][map_y + 1] = "B";
+                    if ( currentDiagonallyLowerLeftEqualSix ) map[map_x - 1][map_y + 1] = "B";
+                    if ( currentDiagonallyUpperRightEqualSix ) map[map_x + 1][map_y - 1] = "B";
                 }
             }
         }
