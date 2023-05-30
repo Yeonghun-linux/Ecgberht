@@ -5,6 +5,8 @@ import ecgberht.Agents.Agent;
 import ecgberht.Agents.DropShipAgent;
 import ecgberht.Agents.VesselAgent;
 import ecgberht.Agents.WraithAgent;
+import ecgberht.BehaviourTrees.Defense.CheckPerimeter;
+import ecgberht.BehaviourTrees.Defense.PerimeterObserver;
 import ecgberht.Simulation.SimulationTheory;
 import ecgberht.Util.BaseLocationComparator;
 import ecgberht.Util.MutablePair;
@@ -20,7 +22,7 @@ import java.util.Map.Entry;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class GameState {
+public class GameState implements PerimeterObserver{
 
     public Area enemyMainArea = null;
     public Area enemyNaturalArea = null;
@@ -146,6 +148,8 @@ public class GameState {
             "Matador", "Penance", "Persephone", "Pillar of Autumn", "Pitiless", "Pompadour", "Providence", "Revenant",
             "Savannah", "Shadow of Intent", "Spirit of Fire", "Tharsis", "Thermopylae"));
 
+    private CheckPerimeter checkPerimeter;
+
     public GameState(BW bw, BWEM bwem) {
         this.bw = bw;
         this.ih = bw.getInteractionHandler();
@@ -158,11 +162,18 @@ public class GameState {
         supplyMan = new SupplyMan(self.getRace());
         sim = new SimulationTheory(bw);
         luckyDraw = Math.random();
+
+        checkPerimeter = new CheckPerimeter("Check Perimeter", this);
+        checkPerimeter.registerObserver(this);
+    }
+
+    @Override
+    public void update(Set<Unit> enemyUnits){
+
     }
 
     private void initPlayers() {
         for (Player p : bw.getAllPlayers()) {
-            //if(p.isObserver()) continue; // TODO uncomment when bwapi client bug is fixed
             if (p.isNeutral()) {
                 players.put(p, 0);
                 neutral = p;

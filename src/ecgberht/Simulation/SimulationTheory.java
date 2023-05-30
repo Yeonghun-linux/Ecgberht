@@ -112,13 +112,18 @@ public class SimulationTheory {
     }
 
     private void createClusters() {
-        MeanShift clustering;
-        createFriendlyClusters();
-        createEnemyClusters();
-    }
 
-    private void createEnemyClusters() {
-        MeanShift clustering;
+        // Friendly Clusters
+        List<UnitInfo> myUnits = new ArrayList<>();
+        for (UnitInfo u : getGs().myArmy) {
+            if (isArmyUnit(u.unit)) myUnits.add(u);
+        }
+        getGs().DBs.keySet().stream().map(b -> getGs().unitStorage.getAllyUnits().get(b)).forEach(myUnits::add); // Bunkers
+        getGs().agents.values().stream().map(g -> g.unitInfo).forEach(myUnits::add); // Agents
+        MeanShift clustering = MeanShift.getInstance(myUnits, radius);
+        friendly = clustering.run(iterations);
+        // Enemy Clusters
+
         List<UnitInfo> enemyUnits = new ArrayList<>();
 
         for (UnitInfo u : getGs().unitStorage.getEnemyUnits().values()) {

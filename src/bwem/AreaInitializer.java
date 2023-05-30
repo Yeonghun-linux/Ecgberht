@@ -447,6 +447,13 @@ final class AreaInitializer extends Area {
         }
     }
 
+    private boolean isInvalidTile(Tile tile) {
+        return !tile.isBuildable()
+                || tile.getInternalData() == -1
+                || !tile.getAreaId().equals(getId())
+                || tile.getNeutral() instanceof StaticBuilding;
+    }
+
     private int computeBaseLocationScore(final TerrainData terrainData,
                                          final TilePosition location) {
         final TilePosition dimCC = UnitType.Terran_Command_Center.tileSize();
@@ -456,20 +463,7 @@ final class AreaInitializer extends Area {
             for (int dx = 0; dx < dimCC.getX(); ++dx) {
                 final Tile tile =
                         terrainData.getTile(location.add(new TilePosition(dx, dy)), CheckMode.NO_CHECK);
-                if (!tile.isBuildable()) {
-                    return -1;
-                }
-                if (tile.getInternalData() == -1) {
-                    // The special value InternalData() == -1 means there is some resource at maximum 3 tiles,
-                    // which Starcraft rules forbid.
-                    // Unfortunately, this is guaranteed only for the resources in this Area, which is the
-                    // very reason of validateBaseLocation
-                    return -1;
-                }
-                if (!tile.getAreaId().equals(getId())) {
-                    return -1;
-                }
-                if (tile.getNeutral() instanceof StaticBuilding) {
+                if (isInvalidTile(tile)) {
                     return -1;
                 }
 
@@ -493,32 +487,41 @@ final class AreaInitializer extends Area {
                 final TilePosition deltaLocation = location.add(new TilePosition(dx, dy));
                 if (terrainData.getMapData().isValid(deltaLocation)) {
                     final Tile deltaTile = terrainData.getTile(deltaLocation, CheckMode.NO_CHECK);
-                    final Neutral deltaTileNeutral = deltaTile.getNeutral();
-                    if (deltaTileNeutral != null) {
-                        if (deltaTileNeutral instanceof Geyser) {
-                            return false;
-                        } else if (deltaTileNeutral instanceof Mineral) {
-                            final Mineral deltaTileMineral = (Mineral) deltaTileNeutral;
-                            if (deltaTileMineral.getInitialAmount() <= 8) {
-                                blockingMinerals.add(deltaTileMineral);
-                            } else {
-                                return false;
-                            }
-                        }
-                    }
+                    if (isTileInvalidForBase(blockingMinerals, deltaTile)) return false;
                 }
             }
         }
 
-        // checks the distance to the bases already created:
+        if (isBaseTooClose(location)) return false;
+
+        return true;
+    }
+
+    private boolean isBaseTooClose(TilePosition location) {
         for (final Base base : getBases()) {
             if (BwemExt.roundedDist(base.getLocation(), location)
                     < BwemExt.MIN_TILES_BETWEEN_BASES) {
-                return false;
+                return true;
             }
         }
+        return false;
+    }
 
-        return true;
+    private static boolean isTileInvalidForBase(List<Mineral> blockingMinerals, Tile deltaTile) {
+        final Neutral deltaTileNeutral = deltaTile.getNeutral();
+        if (deltaTileNeutral != null) {
+            if (deltaTileNeutral instanceof Geyser) {
+                return true;
+            } else if (deltaTileNeutral instanceof Mineral) {
+                final Mineral deltaTileMineral = (Mineral) deltaTileNeutral;
+                if (deltaTileMineral.getInitialAmount() <= 8) {
+                    blockingMinerals.add(deltaTileMineral);
+                } else {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public void onMineralDestroyed(final Mineral mineral) {

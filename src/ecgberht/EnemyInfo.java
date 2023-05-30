@@ -3,7 +3,6 @@ package ecgberht;
 import java.util.ArrayList;
 import java.util.List;
 
-import bwapi.Race;
 import ecgberht.Util.Util;
 
 public class EnemyInfo {

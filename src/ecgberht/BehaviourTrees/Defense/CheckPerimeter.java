@@ -15,11 +15,20 @@ import org.openbw.bwapi4j.unit.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import ecgberht.BehaviourTrees.Defense.PerimeterObserver;
 
 public class CheckPerimeter extends Conditional {
+    private List<PerimeterObserver> observers;
 
     public CheckPerimeter(String name, GameState gh) {
         super(name, gh);
+        observers = new ArrayList<>();
+    }
+
+    private void notifyObservers(){
+        for(PerimeterObserver observer : observers){
+            observer.update(gameState.enemyInBase);
+        }
     }
 
     @Override
@@ -93,10 +102,8 @@ public class CheckPerimeter extends Conditional {
                 }
             }
             if (!gameState.enemyInBase.isEmpty()) {
-                /*if ((((GameState) gameState).getArmySize() >= 50 && ((GameState) gameState).getArmySize() / ((GameState) gameState).enemyInBase.size() > 10)) {
-                    return State.FAILURE;
-                }*/
                 gameState.defense = true;
+                notifyObservers();
                 return State.SUCCESS;
             }
             int cFrame = gameState.frameCount;
@@ -156,5 +163,9 @@ public class CheckPerimeter extends Conditional {
             e.printStackTrace();
             return State.ERROR;
         }
+    }
+
+    public void registerObserver(GameState gameState) {
+        observers.add(gameState);
     }
 }
