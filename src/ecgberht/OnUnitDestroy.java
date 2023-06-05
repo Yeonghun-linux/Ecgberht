@@ -5,8 +5,8 @@ import org.openbw.bwapi4j.Player;
 import org.openbw.bwapi4j.unit.PlayerUnit;
 import org.openbw.bwapi4j.unit.Unit;
 public class OnUnitDestroy extends OnUnitAction{
-	public OnUnitDestroy(Unit unit, UnitStorage storage) {
-		super(unit, storage);
+	public OnUnitDestroy(Unit unit) {
+		super(unit);
 	}
 	@Override
 	void action() {

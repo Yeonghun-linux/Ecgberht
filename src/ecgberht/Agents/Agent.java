@@ -1,6 +1,7 @@
 package ecgberht.Agents;
 
 import ecgberht.UnitInfo;
+import org.openbw.bwapi4j.MapDrawer;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.unit.Unit;
 
@@ -32,6 +33,8 @@ public abstract class Agent {
     }
 
     public abstract boolean runAgent();
+
+    public abstract void drawAgentOnMap(Agent agent, MapDrawer mapDrawer);
 
     enum Status {ATTACK, KITE, COMBAT, IDLE, RETREAT, PATROL}
 }

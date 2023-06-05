@@ -1,37 +1,21 @@
 package ecgberht.Strategies;
 
 import ecgberht.Strategy;
+import ecgberht.Strategies.ProxyEightRax.ProxyEightRaxBuilder;
 import ecgberht.Util.Util;
+
+import java.util.HashSet;
+import java.util.Set;
+
 import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitType;
+import org.openbw.bwapi4j.type.UpgradeType;
 
 public class TheNitekat extends Strategy {
 
-    public TheNitekat() {
-        super();
-        initStrategy();
-    }
-
     @Override
     public void initStrategy() {
-        name = "TheNitekat";
-        armyForBay = 30;
-        armyForTurret = 30;
-        numBays = 0;
-        raxPerCC = 1;
-        facPerCC = 2;
-        numRaxForAca = 3;
-        numRaxForFac = 1;
-        numCCForPort = 2;
-        numCCForScience = 2;
-        portPerCC = 0;
-        bunker = false;
-        supplyForFirstRefinery = 26;
-        armyForAttack = 5;
-        armyForExpand = 25;
-        facForArmory = 3;
-        extraSCVs = 1;
-        numArmories = 1;
+      
         initTrainUnits();
         initBuildUnits();
         initBuildAddons();
@@ -69,4 +53,72 @@ public class TheNitekat extends Strategy {
     public boolean requiredUnitsForAttack() {
         return Util.countUnitTypeSelf(UnitType.Terran_Siege_Tank_Tank_Mode) >= 3;
     }
+    public static class TheNitekatBuilder{
+  		private boolean bunker = false;
+  		private boolean proxy = false;
+  		private boolean harass = true;
+  		private int armyForAttack = 0;
+  		private int armyForExpand = 20;
+  		private int armyForTurret = 0;
+  		private int facPerCC = 0;
+  		private int numBays = 0;
+  		private int numCCForPort = 0;
+  		private int workerGas = 3;
+  		private int numCCForScience = 0;
+  		private int numRaxForAca = 2;
+  		private int numRaxForFac = 0;
+  		private int numFacForPort = 1;
+  		private int extraSCVs = 3;
+  		private int portPerCC = 0;
+  		private int raxPerCC = 0;
+  		private int supplyForFirstRefinery = 0;
+  		private String name;
+  		private int armyForBay = 0;
+  		private int facForArmory = 0;
+  		private int numArmories = 0;
+  		private Set<TechType> techToResearch = new HashSet<>();
+  		private Set<UnitType> buildAddons = new HashSet<>();
+  		private Set<UnitType> buildUnits = new HashSet<>();
+  		private Set<UnitType> trainUnits = new HashSet<>();
+  		private Set<UpgradeType> upgradesToResearch = new HashSet<>();
+  		
+    public TheNitekatBuilder(String name, int armyForBay, int armyForTurret, int numBays, int raxPerCC, int facPerCC,
+				int numRaxForAca, int numRaxForFac, int supplyForFirstRefinery, int armyForAttack, int armyForExpand,
+				int numCCForPort, int numCCForScience, int portPerCC, int facForArmory, int numArmories,
+				boolean bunker) {
+			this.name=name;
+			this.armyForBay=armyForBay;
+			this.armyForTurret =armyForTurret;
+			this.numBays = numBays;
+			this.raxPerCC = raxPerCC;
+			this.facPerCC = facPerCC;
+			this.numRaxForAca = numRaxForAca;
+			this.numRaxForFac = numRaxForFac;
+			this.supplyForFirstRefinery = supplyForFirstRefinery;
+			this.armyForAttack = armyForAttack;
+			this.armyForExpand = armyForExpand;
+			this.numCCForPort = numCCForPort;
+			this.numCCForScience = numCCForScience;
+			this.portPerCC = portPerCC;
+			this.facForArmory =facForArmory;
+			this.numArmories = numArmories;
+			this.bunker = bunker;
+		}
+		public TheNitekat build() {
+			return new TheNitekat(this);
+		}
+		public TheNitekatBuilder setExtraSCVs(int extraSCVs) {
+			this.extraSCVs = extraSCVs;
+			return this;
+		}
+  	
+    }
+		private TheNitekat(TheNitekatBuilder builder) 
+	{
+		super(builder.name,builder.armyForBay,builder.armyForTurret,builder.numBays,builder.raxPerCC
+				,builder.facPerCC,builder.numRaxForAca,builder.numRaxForFac,builder.supplyForFirstRefinery,
+				 builder.armyForAttack,builder.armyForExpand,builder.numCCForPort,builder.numCCForScience,
+				 builder.portPerCC,builder.facForArmory,builder.numArmories,builder.bunker);
+		initStrategy();
+	}
 }

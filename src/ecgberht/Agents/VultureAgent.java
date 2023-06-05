@@ -3,9 +3,11 @@ package ecgberht.Agents;
 import bwem.Base;
 import ecgberht.Simulation.SimInfo;
 import ecgberht.UnitInfo;
+import ecgberht.Util.ColorUtil;
 import ecgberht.Util.MutablePair;
 import ecgberht.Util.Util;
 import ecgberht.Util.UtilMicro;
+import org.openbw.bwapi4j.MapDrawer;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.Order;
 import org.openbw.bwapi4j.type.UnitType;
@@ -252,6 +254,12 @@ public class VultureAgent extends Agent implements Comparable<Unit> {
         }
         UtilMicro.attack(unit, attackPos);
         attackUnit = null;
+    }
+
+    @Override
+    public void drawAgentOnMap(Agent agent, MapDrawer mapDrawer) {
+        VultureAgent vulture = (VultureAgent) agent;
+        mapDrawer.drawTextMap(vulture.myUnit.getPosition(), ColorUtil.formatText(agent.statusToString(), ColorUtil.White));
     }
 
     @Override

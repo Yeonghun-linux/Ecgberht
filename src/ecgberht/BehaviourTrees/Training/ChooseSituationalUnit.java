@@ -29,7 +29,7 @@ public class ChooseSituationalUnit extends Action {
                 }
             } else dropship = false;
             boolean tower = false;
-            if (dropship && !gameState.getStrategyFromManager().name.equals("2PortWraith")) {
+            if (dropship && !gameState.getStrategyFromManager().getName().equals("2PortWraith")) {
                 for (ResearchingFacility u : gameState.UBs) {
                     if (u instanceof ControlTower) {
                         tower = true;
@@ -68,7 +68,7 @@ public class ChooseSituationalUnit extends Action {
                 return State.FAILURE;
             if (Util.countUnitTypeSelf(UnitType.Terran_Science_Vessel) > 0 && !gameState.needToAttack())
                 return State.FAILURE;
-            String strat = gameState.getStrategyFromManager().name;
+            String strat = gameState.getStrategyFromManager().getName();
             if (strat.equals("FullMech") || strat.equals("MechGreedyFE") && Util.getNumberCCs() + (int) gameState.workerTask.values().stream().filter(u -> u instanceof CommandCenter).count() < 3)
                 return State.FAILURE;
             tower = false;

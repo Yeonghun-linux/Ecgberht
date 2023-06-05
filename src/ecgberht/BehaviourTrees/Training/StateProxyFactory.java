@@ -15,7 +15,7 @@ public class StateProxyFactory {
 		boolean noSupplyDepot = Util.countBuildingAll(UnitType.Terran_Supply_Depot) == 0;	
 		final String bbs = "ProxyBBS";
 		final String eightRax = "ProxyEightRax";
-		String strategyName = gameState.getStrategyFromManager().name;
+		String strategyName = gameState.getStrategyFromManager().getName();
 		switch(strategyName){
 		case bbs: proxy = new StateProxyBBS(currentFacility,barraksForBBS,noSupplyDepot,gameState);
 		break;

@@ -1,6 +1,8 @@
 package ecgberht.Agents;
 
+import ecgberht.Util.ColorUtil;
 import ecgberht.Util.Util;
+import org.openbw.bwapi4j.MapDrawer;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.Order;
 import org.openbw.bwapi4j.unit.Dropship;
@@ -181,6 +183,12 @@ public class DropShipAgent extends Agent implements Comparable<Unit> {
             else return Status.RETREAT;
         }
         return Status.IDLE;
+    }
+
+    @Override
+    public void drawAgentOnMap(Agent agent, MapDrawer mapDrawer) {
+        DropShipAgent dropShip = (DropShipAgent) agent;
+        mapDrawer.drawTextMap(dropShip.myUnit.getPosition(), ColorUtil.formatText(agent.statusToString(), ColorUtil.White));
     }
 
     @Override

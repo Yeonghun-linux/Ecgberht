@@ -288,7 +288,7 @@ public class Util {
         double minDist = Double.MAX_VALUE;
         for (UnitInfo u : enemies) {
             if (!u.unit.exists() || (ignoreAir && u.flying)) continue;
-            double dist = unit.toUnitInfoDistance().getDistance(u);
+            double dist = unit.getDistance(u);
             if (chosen == null || dist < minDist) {
                 minDist = dist;
                 chosen = u;
@@ -487,7 +487,7 @@ public class Util {
         int closestDist = Integer.MAX_VALUE;
         for (UnitInfo target : tankTargets) {
             if (!target.visible) continue;
-            int distance = t.toUnitInfoDistance().getDistance(target);
+            int distance = t.getDistance(target);
             int priority = getRangedAttackPriority(t, target);
             if (isStaticDefense(t)) priority *= 1.2;
             if (chosenTarget == null || (priority > highPriority) || (priority == highPriority && distance < closestDist)) {
@@ -511,8 +511,8 @@ public class Util {
             if (enemy.flying && !(rangedUnit.unit instanceof AirAttacker)) continue;
             if (!enemy.flying && !(rangedUnit.unit instanceof GroundAttacker)) continue;
             int priority = getRangedAttackPriority(rangedUnit, enemy);
-            int distance = rangedUnit.toUnitInfoDistance().getDistance(enemy);
-            double closerToGoal = rangedUnit.toUnitInfoDistance().getDistance(pos) - enemy.toUnitInfoDistance().getDistance(pos);
+            int distance = rangedUnit.getDistance(enemy);
+            double closerToGoal = rangedUnit.getDistance(pos) - enemy.getDistance(pos);
             if (distance >= 13 * 32) continue;
             int score = 5 * 32 * priority - distance;
             if (closerToGoal > 0) score += 2 * 32;
@@ -564,7 +564,7 @@ public class Util {
             if (enemy.flying && !(rangedUnit.unit instanceof AirAttacker)) continue;
             if (!enemy.flying && !(rangedUnit.unit instanceof GroundAttacker)) continue;
             int priority = getRangedAttackPriority(rangedUnit, enemy);
-            int distance = rangedUnit.toUnitInfoDistance().getDistance(enemy);
+            int distance = rangedUnit.getDistance(enemy);
             if (distance >= 13 * 32) continue;
             int score = 5 * 32 * priority - distance;
             boolean isThreat = canAttack(enemy, rangedUnit);
@@ -631,7 +631,7 @@ public class Util {
             return 7;
         }
         if (canAttack(target, rangedUnit) && !targetType.isWorker()) {
-            if (rangedUnit.toUnitInfoDistance().getDistance(target) > 48 + getAttackRange(target, rangedUnit)) return 8;
+            if (rangedUnit.getDistance(target) > 48 + getAttackRange(target, rangedUnit)) return 8;
             return 10;
         }
         if (targetType == UnitType.Terran_Dropship || targetType == UnitType.Protoss_Shuttle) return 10;
@@ -643,7 +643,7 @@ public class Util {
             if (target.unit instanceof SCV) {
                 if (((SCV) target.unit).isRepairing()) return 11;
                 if (((SCV) target.unit).isConstructing()) {
-                    if (getGs().getStrategyFromManager().proxy) {
+                    if (getGs().getStrategyFromManager().getProxy()) {
                         Unit build = target.unit.getBuildUnit();
                         if ((build instanceof Bunker || build instanceof Factory)) return 15;
                         return 13;
@@ -663,7 +663,7 @@ public class Util {
         if (targetType == UnitType.Protoss_Templar_Archives) return 7;
         if (targetType == UnitType.Zerg_Spawning_Pool) return 7;
         if (targetType.isResourceDepot()) {
-            if (getGs().getStrategyFromManager().proxy) return 3;
+            if (getGs().getStrategyFromManager().getProxy()) return 3;
             else return 6;
         }
         if (targetType == UnitType.Protoss_Pylon) return 5;

@@ -5,8 +5,10 @@ import com.sun.org.slf4j.internal.Logger;
 import com.sun.org.slf4j.internal.LoggerFactory;
 import ecgberht.Simulation.SimInfo;
 import ecgberht.UnitInfo;
+import ecgberht.Util.ColorUtil;
 import ecgberht.Util.Util;
 import ecgberht.Util.UtilMicro;
+import org.openbw.bwapi4j.MapDrawer;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.WeaponType;
@@ -165,4 +167,9 @@ public class WraithAgent extends Agent implements Comparable<Unit> {
         return this.unit.getId() - v1.getId();
     }
 
+    @Override
+    public void drawAgentOnMap(Agent agent, MapDrawer mapDrawer) {
+        WraithAgent wraith = (WraithAgent) agent;
+        mapDrawer.drawTextMap(wraith.myUnit.getPosition().add(new Position(-16, UnitType.Terran_Wraith.dimensionUp())), ColorUtil.formatText(wraith.name, ColorUtil.White));
+    }
 }

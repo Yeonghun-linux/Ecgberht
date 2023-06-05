@@ -2,8 +2,8 @@ package ecgberht;
 import java.util.Map;
 import org.openbw.bwapi4j.unit.Unit;
 public class OnUnitShow extends OnUnitAction{
-	public OnUnitShow(Unit unit, UnitStorage storage) {
-		super(unit, storage);
+	public OnUnitShow(Unit unit) {
+		super(unit);
 	}
 	@Override
 	void action() {

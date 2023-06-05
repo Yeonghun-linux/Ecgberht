@@ -8,9 +8,10 @@ import org.openbw.bwapi4j.unit.SiegeTank;
 import org.openbw.bwapi4j.unit.Unit;
 public abstract class OnUnitAction {
 	Unit unit;
+	UnitStorage storage;
 	protected Map<Unit, UnitInfo> ally = new TreeMap<>();
     protected Map<Unit, UnitInfo> enemy = new TreeMap<>();
-	public OnUnitAction(Unit unit, UnitStorage storage) {
+	public OnUnitAction(Unit unit) {
 		this.unit = unit;
 		this.ally = storage.getAllyUnits();
 		this.enemy = storage.getEnemyUnits();

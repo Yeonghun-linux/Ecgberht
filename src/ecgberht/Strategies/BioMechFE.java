@@ -1,37 +1,21 @@
 package ecgberht.Strategies;
 
 import ecgberht.Strategy;
+import ecgberht.Strategies.BioMech.BioMechBuilder;
 import ecgberht.Util.Util;
+
+import java.util.HashSet;
+import java.util.Set;
+
 import org.openbw.bwapi4j.type.TechType;
 import org.openbw.bwapi4j.type.UnitType;
 import org.openbw.bwapi4j.type.UpgradeType;
 
 public class BioMechFE extends Strategy {
 
-    public BioMechFE() {
-        super();
-        initStrategy();
-    }
-
     @Override
     public void initStrategy() {
-        name = "BioMechFE";
-        armyForBay = 15;
-        armyForTurret = 10;
-        numBays = 1;
-        raxPerCC = 3;
-        facPerCC = 1;
-        numRaxForAca = 2;
-        numRaxForFac = 1;
-        numCCForPort = 2;
-        numCCForScience = 2;
-        portPerCC = 0;
-        bunker = false;
-        supplyForFirstRefinery = 38;
-        armyForAttack = 25;
-        armyForExpand = 9;
-        facForArmory = 2;
-        numArmories = 1;
+        
         initTrainUnits();
         initBuildUnits();
         initBuildAddons();
@@ -83,4 +67,69 @@ public class BioMechFE extends Strategy {
     public boolean requiredUnitsForAttack() {
         return Util.countUnitTypeSelf(UnitType.Terran_Siege_Tank_Tank_Mode) >= 3;
     }
+    public static class BioMechFEBuilder{
+		protected boolean bunker = false;
+		protected boolean proxy = false;
+		protected boolean harass = true;
+		protected int armyForAttack = 0;
+		protected int armyForExpand = 20;
+		protected int armyForTurret = 0;
+		protected int facPerCC = 0;
+		protected int numBays = 0;
+		protected int numCCForPort = 0;
+		protected int workerGas = 3;
+		protected int numCCForScience = 0;
+		protected int numRaxForAca = 2;
+		protected int numRaxForFac = 0;
+		protected int numFacForPort = 1;
+		protected int extraSCVs = 3;
+		protected int portPerCC = 0;
+		protected int raxPerCC = 0;
+		protected int supplyForFirstRefinery = 0;
+		protected String name;
+		protected int armyForBay = 0;
+		protected int facForArmory = 0;
+		protected int numArmories = 0;
+		protected Set<TechType> techToResearch = new HashSet<>();
+		protected Set<UnitType> buildAddons = new HashSet<>();
+		protected Set<UnitType> buildUnits = new HashSet<>();
+		protected Set<UnitType> trainUnits = new HashSet<>();
+		protected Set<UpgradeType> upgradesToResearch = new HashSet<>();
+		
+		public BioMechFEBuilder(String name, int armyForBay, int armyForTurret, int numBays, int raxPerCC, int facPerCC,
+				int numRaxForAca, int numRaxForFac, int supplyForFirstRefinery, int armyForAttack, int armyForExpand,
+				int numCCForPort, int numCCForScience, int portPerCC, int facForArmory, int numArmories,
+				boolean bunker) {
+			this.name=name;
+			this.armyForBay=armyForBay;
+			this.armyForTurret =armyForTurret;
+			this.numBays = numBays;
+			this.raxPerCC = raxPerCC;
+			this.facPerCC = facPerCC;
+			this.numRaxForAca = numRaxForAca;
+			this.numRaxForFac = numRaxForFac;
+			this.supplyForFirstRefinery = supplyForFirstRefinery;
+			this.armyForAttack = armyForAttack;
+			this.armyForExpand = armyForExpand;
+			this.numCCForPort = numCCForPort;
+			this.numCCForScience = numCCForScience;
+			this.portPerCC = portPerCC;
+			this.facForArmory =facForArmory;
+			this.numArmories = numArmories;
+			this.bunker = bunker;
+		}
+		public BioMechFE build() {
+			return new BioMechFE(this);
+		}
+    	
+    }
+	private BioMechFE(BioMechFEBuilder builder) 
+	{
+		super(builder.name,builder.armyForBay,builder.armyForTurret,builder.numBays,builder.raxPerCC
+				,builder.facPerCC,builder.numRaxForAca,builder.numRaxForFac,builder.supplyForFirstRefinery,
+				 builder.armyForAttack,builder.armyForExpand,builder.numCCForPort,builder.numCCForScience,
+				 builder.portPerCC,builder.facForArmory,builder.numArmories,builder.bunker);
+		
+		initStrategy();
+	}
 }

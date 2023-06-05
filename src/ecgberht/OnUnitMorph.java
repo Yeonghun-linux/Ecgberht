@@ -3,8 +3,8 @@ import java.util.Map;
 import org.openbw.bwapi4j.unit.SiegeTank;
 import org.openbw.bwapi4j.unit.Unit;
 public class OnUnitMorph extends OnUnitAction{
-	public OnUnitMorph(Unit unit, UnitStorage storage) {
-		super(unit, storage);
+	public OnUnitMorph(Unit unit) {
+		super(unit);
 	}
 	@Override
 	void action() {

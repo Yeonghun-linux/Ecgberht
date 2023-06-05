@@ -22,7 +22,7 @@ public class ChooseMarine extends Action {
         try {
             if (!gameState.MBs.isEmpty()) {
                 int multiplier = 2;
-                String strat = gameState.getStrat().name;
+                String strat = gameState.getStrategyFromManager().getName();
                 Player self = gameState.getPlayer();
                 if (strat.equals("FullMech") || strat.equals("MechGreedyFE") || strat.equals("VultureRush"))
                     multiplier = 15;

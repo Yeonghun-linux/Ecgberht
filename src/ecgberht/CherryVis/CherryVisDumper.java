@@ -17,11 +17,14 @@ public class CherryVisDumper {
     private GameState gameState;
     private TraceData traceData;
     private final String dir = "bwapi-data/write/cherryvis";
+    private Writing writing = new Writing();
 
     public CherryVisDumper(GameState gameState) {
         this.gameState = gameState;
         traceData = new TraceData();
     }
+
+
 
     public void onFrame() {
         String frame = String.valueOf(gameState.frameCount);
@@ -34,27 +37,6 @@ public class CherryVisDumper {
         traceData.units_first_seen.computeIfAbsent(frame, s -> new ArrayList<>()).add(unitSeenInfo);
     }
 
-    private void writeJSONCompressed(Object content, String path) {
-        Gson aux = new GsonBuilder().create();
-        String data = aux.toJson(content);
-        byte[] compressedData = Zstd.compress(data.getBytes());
-        try (OutputStream writer = new FileOutputStream(new File(path))) {
-            writer.write(compressedData);
-        } catch (IOException e) {
-            System.err.println("writeJSONCompressed");
-            e.printStackTrace();
-        }
-    }
-
-    private void writeJSON(Object content, String path) {
-        Gson aux = new GsonBuilder().create();
-        try (FileWriter writer = new FileWriter(path)) {
-            aux.toJson(content, writer);
-        } catch (IOException e) {
-            System.err.println("writeJSON");
-            e.printStackTrace();
-        }
-    }
 
     private String getDumpDirectory(String opponentName) {
         int i = 1;
@@ -84,7 +66,8 @@ public class CherryVisDumper {
         String path = getDumpDirectory(opponentName);
         if (path != null) {
             Util.sendText("Writing traceData to: " + path);
-            writeJSONCompressed(traceData, path + "trace.json");
+            writing.setWriteStrategy(new WriteJsonCompressedStrategy());
+            writing.write(traceData, path + "trace.json");
         }
     }
 
@@ -117,5 +100,6 @@ public class CherryVisDumper {
     private String getStringUnitTypeUnit(Unit unit) {
         return unit != null ? unit.getType().toString() : "None";
     }
+
 
 }

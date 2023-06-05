@@ -4,6 +4,8 @@ import bwem.Base;
 import bwem.ChokePoint;
 import bwem.Mineral;
 import cameraModule.CameraModule;
+import cameraModule.CameraModuleFactory;
+import cameraModule.CameraModuleImpl;
 import ecgberht.Agents.*;
 import ecgberht.Util.ColorUtil;
 import ecgberht.Util.MutablePair;
@@ -22,17 +24,19 @@ public class DebugManager {
 
     private MapDrawer mapDrawer;
     private InteractionHandler iH;
+    private TilePosition startPos;
+    protected BW game;
     private CameraModule skycladObserver;
     TextSetting _textsetting;
-    DebugManager(MapDrawer mapDrawer, InteractionHandler iH, CameraModule skycladObserver) {
+    DebugManager(MapDrawer mapDrawer, InteractionHandler iH, TilePosition startPos, BW game) {
         this.mapDrawer = mapDrawer;
         this.iH = iH;
-        this.skycladObserver = skycladObserver;
+        this.skycladObserver = CameraModuleFactory.createCameraModule(startPos, game);
     }
 
     public void keyboardInteraction(String text) {
         setInteractionText(text);
-        _textsetting.doInteraction(CameraModule skycladObserver);
+        _textsetting.doInteraction(skycladObserver);
     }
     
     public void setInteractionText(String text){
@@ -80,26 +84,7 @@ public class DebugManager {
             }
             
             for (Agent ag : gameState.agents.values()) {
-                if (ag instanceof VultureAgent) {
-                    VultureAgent vulture = (VultureAgent) ag;
-                    mapDrawer.drawTextMap(vulture.myUnit.getPosition(), ColorUtil.formatText(ag.statusToString(), ColorUtil.White));
-                } else if (ag instanceof VesselAgent) {
-                    VesselAgent vessel = (VesselAgent) ag;
-                    mapDrawer.drawTextMap(vessel.myUnit.getPosition(), ColorUtil.formatText(ag.statusToString(), ColorUtil.White));
-                    if (vessel.follow != null)
-                        mapDrawer.drawLineMap(vessel.myUnit.getPosition(), vessel.follow.getSquadCenter(), Color.YELLOW);
-                } else if (ag instanceof WraithAgent) {
-                    WraithAgent wraith = (WraithAgent) ag;
-                    mapDrawer.drawTextMap(wraith.myUnit.getPosition().add(new Position(-16,
-                            UnitType.Terran_Wraith.dimensionUp())), ColorUtil.formatText(wraith.name, ColorUtil.White));
-                } else if (ag instanceof DropShipAgent) {
-                    DropShipAgent dropShip = (DropShipAgent) ag;
-                    mapDrawer.drawTextMap(dropShip.myUnit.getPosition(), ColorUtil.formatText(ag.statusToString(), ColorUtil.White));
-                } else if (ag instanceof WorkerScoutAgent) {
-                    WorkerScoutAgent worker = (WorkerScoutAgent) ag;
-                    mapDrawer.drawTextMap(worker.myUnit.getPosition().add(new Position(-16,
-                            UnitType.Terran_SCV.dimensionUp())), ColorUtil.formatText(worker.statusToString(), ColorUtil.White));
-                }
+                ag.drawAgentOnMap(ag, mapDrawer);
             }
             if (gameState.enemyStartBase != null)
                 mapDrawer.drawTextMap(gameState.enemyStartBase.getLocation().toPosition(), ColorUtil.formatText("EnemyStartBase", ColorUtil.White));
