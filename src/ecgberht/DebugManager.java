@@ -270,12 +270,12 @@ public class DebugManager {
 abstract class TextSetting{
     protected boolean setting;
 
-    protected abstract void settingConfigManager();
+    protected abstract void setting_ConfigManager();
     protected abstract void sendText();
     protected abstract void setting_debugText();
 
     public void doInteraction(CameraModule skycladObserver){
-        settingConfigManager();
+        setting_ConfigManager();
         sendText();
         setting_debugText();
     }
