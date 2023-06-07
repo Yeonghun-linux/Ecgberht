@@ -47,7 +47,7 @@ public class CheckBuildingFlames extends Action {
             for (SCV s : toRemove) gameState.repairerTask.remove(s);
             boolean isBeingRepaired;
             boolean cheesed = IntelligenceAgency.getEnemyStrat() == IntelligenceAgency.EnemyStrats.ZealotRush && gameState.frameCount >= 24 * 60 * 2.2;
-            boolean fastExpanding = gameState.getStrat().name.contains("GreedyFE") && Util.countBuildingAll(UnitType.Terran_Command_Center) == 2 && gameState.CCs.size() < 2 && gameState.firstExpand;
+            boolean fastExpanding = gameState.getStrategyFromManager().getName().contains("GreedyFE") && Util.countBuildingAll(UnitType.Terran_Command_Center) == 2 && gameState.CCs.size() < 2 && gameState.firstExpand;
             for (Bunker w : gameState.DBs.keySet()) {
                 int count = 0;
                 if (UnitType.Terran_Bunker.maxHitPoints() != w.getHitPoints() ||
@@ -101,7 +101,7 @@ public class CheckBuildingFlames extends Action {
                     }
                 }
             }
-            if (!gameState.getStrat().proxy) {
+            if (!gameState.getStrategyFromManager().getProxy()) {
                 isBeingRepaired = false;
                 for (Barracks b : gameState.MBs) {
                     if (UnitType.Terran_Barracks.maxHitPoints() != b.getHitPoints()) {

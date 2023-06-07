@@ -83,8 +83,9 @@ public class SimulationTheory {
                 }
                 break;
             case Terran:
-                boolean is_exist_strategy = getGs().getStrat() != null;
-                boolean is_proxy_strategy = getGs().getStrat().proxy;
+
+                boolean is_exist_strategy = getGs().getStrategyFromManager() != null;
+                boolean is_proxy_strategy = getGs().getStrategyFromManager().getProxy();
                 boolean is_equal_TurretMissile_AttackRange = radius == UnitType.Terran_Missile_Turret.airWeapon().maxRange();
                 if (is_exist_strategy && is_proxy_strategy && is_equal_TurretMissile_AttackRange) {
                     radius -= 32;
@@ -128,7 +129,8 @@ public class SimulationTheory {
 
         for (UnitInfo u : getGs().unitStorage.getEnemyUnits().values()) {
 
-            boolean is_proxy_strategy = getGs().getStrat().proxy;
+
+            boolean is_proxy_strategy = getGs().getStrategyFromManager().getProxy();
             boolean is_less_than_four_seconds = getGs().frameCount - u.lastVisibleFrame <= 24 * 4;
             if (is_proxy_strategy && u.unitType.isWorker() && (Util.isInOurBases(u) && !u.unit.isAttacking()))
 
@@ -155,8 +157,8 @@ public class SimulationTheory {
     }
 
     private boolean isArmyUnit(Unit u) {
-        boolean is_equal_proxyBBS_strategy = getGs().getStrat().name.equals("ProxyBBS");
-        boolean is_equal_proxyEightRax_strategy = getGs().getStrat().name.equals("ProxyEightRax");
+        boolean is_equal_proxyBBS_strategy = getGs().getStrategyFromManager().getName().equals("ProxyBBS");
+        boolean is_equal_proxyEightRax_strategy = getGs().getStrategyFromManager().getName().equals("ProxyEightRax");
         try {
             if (u == null || !u.exists()) return false;
 
@@ -312,8 +314,8 @@ public class SimulationTheory {
 
                 if (s.stateAfter.first.isEmpty()) s.lose = true;
 
-                else if (getGs().getStrat().name.equals("ProxyBBS")) s.lose = !scoreCalcASS(s, 1.2);
-                else if (getGs().getStrat().name.equals("ProxyEightRax")) s.lose = !scoreCalcASS(s, 1.35);
+                else if (getGs().getStrategyFromManager().getName().equals("ProxyBBS")) s.lose = !scoreCalcASS(s, 1.2);
+                else if (getGs().getStrategyFromManager().getName().equals("ProxyEightRax")) s.lose = !scoreCalcASS(s, 1.35);
 
                 return false;
     }
@@ -470,7 +472,7 @@ public class SimulationTheory {
         if (s.enemies.isEmpty()) return true;
         for (UnitInfo e : s.enemies) {
             boolean isThreat = Util.canAttack(e, u);
-            if (isThreat && u.getDistance(e) <= (!melee ? 32 : 96) + Util.getAttackRange(e, u)) return false;
+            if (isThreat && u.toUnitInfoDistance().getDistance(e) <= (!melee ? 32 : 96) + Util.getAttackRange(e, u)) return false;
         }
         return true;
     }

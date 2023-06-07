@@ -21,7 +21,7 @@ public class ChooseTurret extends Action {
     @Override
     public State execute() {
         try {
-            if (gameState.getArmySize() < gameState.getStrat().armyForTurret &&
+            if (gameState.getArmySize() < gameState.getStrategyFromManager().getArmyForTurret() &&
                     !IntelligenceAgency.enemyHasType(UnitType.Zerg_Lurker, UnitType.Hero_Dark_Templar)) {
                 return State.FAILURE;
             }

@@ -20,7 +20,7 @@ public class ChooseBunker extends Action {
             if (gameState.getGame().getBWMap().mapHash().equals("6f5295624a7e3887470f3f2e14727b1411321a67")) {
                 return State.FAILURE;
             }
-            if ((needBunker() || gameState.getStrat().bunker || IntelligenceAgency.enemyIsRushing() || gameState.learningManager.isNaughty())
+            if ((needBunker() || gameState.getStrategyFromManager().isBunker() || IntelligenceAgency.enemyIsRushing() || gameState.learningManager.isNaughty())
                     && gameState.MBs.size() >= 1 && Util.countBuildingAll(UnitType.Terran_Bunker) == 0) {
                 gameState.chosenToBuild = UnitType.Terran_Bunker;
                 return State.SUCCESS;
@@ -34,7 +34,7 @@ public class ChooseBunker extends Action {
     }
 
     private boolean needBunker() {
-        return gameState.enemyRace == Race.Zerg && !gameState.getStrat().name.equals("ProxyBBS")
-                && !gameState.getStrat().name.equals("ProxyEightRax") && !gameState.getStrat().name.equals("TwoPortWraith");
+        return gameState.enemyRace == Race.Zerg && !gameState.getStrategyFromManager().getName().equals("ProxyBBS")
+                && !gameState.getStrategyFromManager().getName().equals("ProxyEightRax") && !gameState.getStrategyFromManager().getName().equals("TwoPortWraith");
     }
 }

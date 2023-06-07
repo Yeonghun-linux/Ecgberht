@@ -25,7 +25,7 @@ public class SendScout extends Action {
                     List<Base> aux = new ArrayList<>();
                     for (Base b : gameState.scoutSLs) {
                         if (gameState.fortressSpecialBLs.containsKey(b)) continue;
-                        if (gameState.getStrat().name.equals("PlasmaWraithHell")) {
+                        if (gameState.getStrategyFromManager().getName().equals("PlasmaWraithHell")) {
                             if (((MobileUnit) gameState.chosenScout).move(b.getLocation().toPosition())) {
                                 return State.SUCCESS;
                             }
@@ -38,7 +38,7 @@ public class SendScout extends Action {
                     gameState.scoutSLs.removeAll(aux);
                 }
             }
-            if (gameState.getStrat().name.equals("PlasmaWraithHell")) {
+            if (gameState.getStrategyFromManager().getName().equals("PlasmaWraithHell")) {
                 ((MobileUnit) gameState.chosenScout).stop(false);
                 gameState.chosenScout = null;
                 return State.FAILURE;

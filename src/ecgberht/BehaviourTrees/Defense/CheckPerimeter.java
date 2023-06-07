@@ -91,7 +91,7 @@ public class CheckPerimeter extends Conditional {
                             break;
                         }
                     }
-                    if (!gameState.getStrat().name.equals("ProxyBBS") && !gameState.getStrat().name.equals("ProxyEightRax")) {
+                    if (!gameState.getStrategyFromManager().getName().equals("ProxyBBS") && !gameState.getStrategyFromManager().getName().equals("ProxyEightRax")) {
                         for (Unit c : gameState.MBs) {
                             if (Util.broodWarDistance(u.getPosition(), c.getPosition()) <= 200) {
                                 gameState.enemyInBase.add(u);

@@ -19,7 +19,7 @@ public class ChooseScout extends Action {
     @Override
     public State execute() {
         try {
-            if (gameState.getStrat().name.equals("PlasmaWraithHell")) {
+            if (gameState.getStrategyFromManager().getName().equals("PlasmaWraithHell")) {
                 for (Squad s : gameState.sqManager.squads.values()) {
                     for (UnitInfo u : s.members) {
                         if (u.unit instanceof Wraith) {

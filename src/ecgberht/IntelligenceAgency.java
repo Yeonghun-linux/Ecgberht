@@ -189,7 +189,7 @@ public class IntelligenceAgency {
                 getGs().playSound("rushed.mp3");
                 String strat = getGs().getStrategyFromManager().name;
                 if (strat.contains("GreedyFE") || strat.equals("14CC")) { // TODO cancel 14CC??
-                    getGs().setStrategyToManager(new FullBio());
+                    getGs().setStrategyToManager(getGs().singletonManager.getSubStrategy("FullBio"));
                     getGs().defendPosition = getGs().mainChoke.getCenter().toPosition();
                     Ecgberht.transition();
                 }
@@ -213,12 +213,12 @@ public class IntelligenceAgency {
                 getGs().playSound("rushed.mp3");
                 String strat = getGs().getStrategyFromManager().name;
                 if (strat.contains("GreedyFE") || strat.equals("FullMech") || strat.equals("14CC")) {
-                    getGs().setStrategyToManager(new FullBio());
+                    getGs().setStrategyToManager(getGs().singletonManager.getSubStrategy("FullBio"));
                     getGs().defendPosition = getGs().mainChoke.getCenter().toPosition();
                     Ecgberht.transition();
 
                 } else if (getGs().getStrategyFromManager().name.equals("BioMech") || getGs().getStrategyFromManager().name.equals("BioMechFE")) {
-                    getGs().setStrategyToManager(new FullBioFE());
+                    getGs().setStrategyToManager(getGs().singletonManager.getSubStrategy("FullBioFE"));
                     getGs().defendPosition = getGs().mainChoke.getCenter().toPosition();
                     Ecgberht.transition();
                 }
@@ -247,10 +247,10 @@ public class IntelligenceAgency {
                 Util.sendText("Nice Mech getStrat() you got there");
                 getGs().playSound("rushed.mp3");
                 if (getGs().getStrategyFromManager().name.equals("BioGreedyFE")) {
-                    getGs().setStrategyToManager(new MechGreedyFE());
+                    getGs().setStrategyToManager(getGs().singletonManager.getSubStrategy("MechGreedyFE"));
                     Ecgberht.transition();
                 } else if (getGs().getStrategyFromManager().name.equals("FullBio") || getGs().getStrategyFromManager().name.equals("FullBioFE")) {
-                    getGs().setStrategyToManager(new FullMech());
+                    getGs().setStrategyToManager(getGs().singletonManager.getSubStrategy("FullMech"));
                     Ecgberht.transition();
                 }
                 return true;
@@ -326,12 +326,12 @@ public class IntelligenceAgency {
                 getGs().getStrategyFromManager().bunker = true;
                 String strat = getGs().getStrategyFromManager().name;
                 if (strat.equals("14CC")) { // TODO cancel 14CC??
-                    getGs().setStrategyToManager(new FullBio());
+                    getGs().setStrategyToManager(getGs().singletonManager.getSubStrategy("FullBio"));
                     getGs().defendPosition = getGs().mainChoke.getCenter().toPosition();
                     Ecgberht.transition();
                 }
                 if (strat.contains("GreedyFE")) { // TODO cancel FE??
-                    getGs().setStrategyToManager(new FullBio());
+                    getGs().setStrategyToManager(getGs().singletonManager.getSubStrategy("FullBio"));
                     getGs().defendPosition = getGs().mainChoke.getCenter().toPosition();
                     Ecgberht.transition();
                 }
@@ -348,9 +348,9 @@ public class IntelligenceAgency {
                 enemyStrat = EnemyStrats.ProtossFE;
                 Util.sendText("Nice FE");
                 String strat = getGs().getStrategyFromManager().name;
-                if (strat.equals("FullBio") || strat.equals("FullBioFE")) getGs().setStrategyToManager(new BioGreedyFE());
-                if (strat.equals("BioMech") || strat.equals("BioMechFE")) getGs().setStrategyToManager(new BioMechGreedyFE());
-                if (strat.equals("FullMech")) getGs().setStrategyToManager(new MechGreedyFE());
+                if (strat.equals("FullBio") || strat.equals("FullBioFE")) getGs().setStrategyToManager(getGs().singletonManager.getSubStrategy("BioGreedyFE"));
+                if (strat.equals("BioMech") || strat.equals("BioMechFE")) getGs().setStrategyToManager(getGs().singletonManager.getSubStrategy("BioGreedyFE"));
+                if (strat.equals("FullMech")) getGs().setStrategyToManager(getGs().singletonManager.getSubStrategy("MechGreedyFE"));
                 if (strat.contains("GreedyFE")) getGs().getStrategyFromManager().armyForAttack += 10;
                 getGs().defendPosition = getGs().naturalChoke.getCenter().toPosition();
                 Ecgberht.transition();
@@ -464,7 +464,7 @@ public class IntelligenceAgency {
                 enemyStrat = EnemyStrats.CannonRush;
                 Util.sendText("Cannon rusher T_T");
                 getGs().playSound("rushed.mp3");
-                getGs().setStrategyToManager(new FullMech());
+                getGs().setStrategyToManager(getGs().singletonManager.getSubStrategy("FullMech"));
                 getGs().getStrategyFromManager().armyForExpand += 10; // TODO add preconditions for expanding
                 getGs().defendPosition = getGs().mainChoke.getCenter().toPosition();
                 Ecgberht.transition();

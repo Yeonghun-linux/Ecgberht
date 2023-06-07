@@ -269,8 +269,8 @@ public class DebugManager {
 
 public abstract class TextSetting{
     private boolean setting;
-    private abstract String setting_name;
-    private abstract String sending_name;
+    private abstract String setting_name="";
+    private abstract String sending_name="";
 
     //setting config manager
     private String setting_default =  'setting = ConfigManager.getConfig().ecgConfig.';
@@ -291,21 +291,33 @@ public abstract class TextSetting{
 }
 
 public class TextSetting_dt extends TextSetting{
-    setting_name = "debugText";
-    sending_name = "debugText";
+    TextSetting_dt(){
+        super();
+        setting_name = "debugText";
+        sending_name = "debugText";
+    }
+   
 }
 public class TextSetting_dc extends TextSetting{
-    setting_name = "debugConsole";
-    sending_name = "debugConsole";
+    TextSetting_dc(){
+        super();
+        setting_name = "debugConsole";
+        sending_name = "debugConsole";
+    }
 }
 public class TextSetting_ds extends TextSetting{
-    setting_name = "debugScreen";
-    sending_name = "debugScreen";
+    TextSetting_ds(){
+        super();
+        setting_name = "debugScreen";
+        sending_name = "debugScreen";
+    }
 }
 public class TextSetting_obs extends TextSetting{
-    setting_name = 'enableSkyCladObserver';
-    sending_name = "Observer";
-
+    TextSetting_obs(){
+        super();
+        setting_name = 'enableSkyCladObserver';
+        sending_name = "Observer";
+    }
     @Override
     public void doInteraction(CameraModule skycladObserver){
         super.doInteraction()
@@ -313,11 +325,19 @@ public class TextSetting_obs extends TextSetting{
     }
 }
 public class TextSetting_sounds extends TextSetting{
-    setting_name = "sounds";
-    sending_name = "Sounds";
+    TextSetting_sounds(){
+        super();
+        setting_name = "sounds";
+        sending_name = "Sounds";
+    }
+    
 }
 public class TextSetting_noattack extends TextSetting{
-    setting_name = "debugDisableAttack";
-    sending_name = "Debug Attack";
+    TextSetting_noattack(){
+        super();
+        setting_name = "debugDisableAttack";
+        sending_name = "Debug Attack";
+    }
+    
 }
        

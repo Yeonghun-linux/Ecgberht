@@ -13,7 +13,7 @@ public class CheckExplorer extends Conditional {
     @Override
     public State execute() {
         try {
-            if (!gameState.learningManager.defendHarass() && !gameState.explore && gameState.getStrat().harass)
+            if (!gameState.learningManager.defendHarass() && !gameState.explore && gameState.getStrategyFromManager().isHarass())
                 return State.FAILURE;
             else {
                 gameState.chosenUnitToHarass = null;

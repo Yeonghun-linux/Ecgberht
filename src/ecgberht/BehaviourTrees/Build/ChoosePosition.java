@@ -55,7 +55,7 @@ public class ChoosePosition extends Action {
                 if (gameState.mainCC != null) main = gameState.mainCC.second.getTilePosition();
                 else main = gameState.getPlayer().getStartLocation();
                 List<Base> valid = new ArrayList<>();
-                if (gameState.getStrat().name.equals("PlasmaWraithHell")) {
+                if (gameState.getStrategyFromManager().getName().equals("PlasmaWraithHell")) {
                     for (Base b : gameState.specialBLs) {
                         if (!gameState.CCs.containsKey(b)) {
                             gameState.chosenPosition = b.getLocation();
@@ -104,7 +104,7 @@ public class ChoosePosition extends Action {
                     }
                 }
                 if (!gameState.chosenToBuild.equals(UnitType.Terran_Bunker) && !gameState.chosenToBuild.equals(UnitType.Terran_Missile_Turret)) {
-                    if (gameState.getStrat().proxy && gameState.chosenToBuild == UnitType.Terran_Barracks) {
+                    if (gameState.getStrategyFromManager().getProxy() && gameState.chosenToBuild == UnitType.Terran_Barracks) {
                         origin = gameState.mapCenter.toTilePosition();
                     } else if (gameState.mainCC != null && gameState.mainCC.first != null) {
                         origin = gameState.mainCC.first.getLocation();
@@ -142,10 +142,10 @@ public class ChoosePosition extends Action {
                         }
                     }
                     if (gameState.mainChoke != null &&
-                            !gameState.getStrat().name.equals("MechGreedyFE") &&
-                            !gameState.getStrat().name.equals("BioGreedyFE") &&
-                            !gameState.getStrat().name.equals("14CC") &&
-                            !gameState.getStrat().name.equals("BioMechGreedyFE")) {
+                            !gameState.getStrategyFromManager().getName().equals("MechGreedyFE") &&
+                            !gameState.getStrategyFromManager().getName().equals("BioGreedyFE") &&
+                            !gameState.getStrategyFromManager().getName().equals("14CC") &&
+                            !gameState.getStrategyFromManager().getName().equals("BioMechGreedyFE")) {
                         origin = gameState.testMap.findBunkerPosition(gameState.mainChoke);
                         if (origin != null) {
                             gameState.testMap = gameState.map.clone();

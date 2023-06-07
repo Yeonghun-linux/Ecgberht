@@ -1201,8 +1201,8 @@ public class GameState implements PerimeterObserver{
                 walkingMinerals.add(mineralPatches.get(0));
                 walkingMinerals.add(mineralPatches.get(1));
                 randomEggs.sort(Comparator.comparingInt((Unit o) -> o.getDistance(u.getUnit())));
-                OnUnitAction firstRandomUnitShow = new OnUnitShow(randomEggs.get(0),unitStorage);
-                OnUnitAction secondRandomUnitShow = new OnUnitShow(randomEggs.get(1),unitStorage);
+                OnUnitAction firstRandomUnitShow = new OnUnitShow(randomEggs.get(0));
+                OnUnitAction secondRandomUnitShow = new OnUnitShow(randomEggs.get(1));
                 firstRandomUnitShow.action();
                 secondRandomUnitShow.action();
             }

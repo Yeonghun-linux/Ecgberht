@@ -16,7 +16,7 @@ public class CheckScout extends Conditional {
     @Override
     public State execute() {
         try {
-            String strat = gameState.getStrat().name;
+            String strat = gameState.getStrategyFromManager().getName();
             if (strat.equals("PlasmaWraithHell")) {
                 if (gameState.sqManager.squads.isEmpty()) return State.FAILURE;
                 return State.SUCCESS;

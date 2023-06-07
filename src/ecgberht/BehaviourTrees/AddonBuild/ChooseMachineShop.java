@@ -16,9 +16,9 @@ public class ChooseMachineShop extends Action {
     @Override
     public State execute() {
         try {
-            if (gameState.getStrategyFromManager().name.equals("VultureRush") && (gameState.Fs.size() < 2 || gameState.UBs.stream().anyMatch(u -> u instanceof MachineShop)))
+            if (gameState.getStrategyFromManager().getName().equals("VultureRush") && (gameState.Fs.size() < 2 || gameState.UBs.stream().anyMatch(u -> u instanceof MachineShop)))
                 return State.FAILURE;
-            if (gameState.getStrategyFromManager().name.equals("TheNitekat") && (gameState.Fs.size() > 1 || gameState.UBs.stream().anyMatch(u -> u instanceof MachineShop)))
+            if (gameState.getStrategyFromManager().getName().equals("TheNitekat") && (gameState.Fs.size() > 1 || gameState.UBs.stream().anyMatch(u -> u instanceof MachineShop)))
                 return State.FAILURE;
             if (!gameState.Fs.isEmpty()) {
                 for (Factory c : gameState.Fs) {

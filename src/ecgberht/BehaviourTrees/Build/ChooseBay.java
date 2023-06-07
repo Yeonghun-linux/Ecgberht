@@ -21,10 +21,10 @@ public class ChooseBay extends Action {
     public State execute() {
         try {
             if (!IntelligenceAgency.enemyHasAirOrCloakedThreats()) {
-                if (gameState.getArmySize() < gameState.getStrat().armyForBay) return State.FAILURE;
-                if (gameState.getStrat().name.contains("BioMech") && gameState.CCs.size() < 2) return State.FAILURE;
+                if (gameState.getArmySize() < gameState.getStrategyFromManager().getArmyForBay()) return State.FAILURE;
+                if (gameState.getStrategyFromManager().getName().contains("BioMech") && gameState.CCs.size() < 2) return State.FAILURE;
             }
-            if (Util.countUnitTypeSelf(UnitType.Terran_Engineering_Bay) < gameState.getStrat().numBays) {
+            if (Util.countUnitTypeSelf(UnitType.Terran_Engineering_Bay) < gameState.getStrategyFromManager().getNumBays()) {
                 for (MutablePair<UnitType, TilePosition> w : gameState.workerBuild.values()) {
                     if (w.first == UnitType.Terran_Engineering_Bay) return State.FAILURE;
                 }

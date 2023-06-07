@@ -19,7 +19,7 @@ public class ChooseMarineRange extends Action {
     public State execute() {
         try {
             if (gameState.UBs.isEmpty()) return State.FAILURE;
-            String strat = gameState.getStrat().name;
+            String strat = gameState.getStrategyFromManager().getName();
             if (strat.equals("BioMech") || strat.equals("BioMechGreedyFE") || strat.equals("BioMechFE")) {
                 Player self = gameState.getPlayer();
                 if (!self.isResearching(TechType.Tank_Siege_Mode) && !self.hasResearched(TechType.Tank_Siege_Mode)) {

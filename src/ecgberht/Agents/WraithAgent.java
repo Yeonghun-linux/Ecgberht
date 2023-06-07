@@ -1,8 +1,6 @@
 package ecgberht.Agents;
 
 import bwem.util.Pair;
-import com.sun.org.slf4j.internal.Logger;
-import com.sun.org.slf4j.internal.LoggerFactory;
 import ecgberht.Simulation.SimInfo;
 import ecgberht.UnitInfo;
 import ecgberht.Util.ColorUtil;
@@ -26,7 +24,6 @@ import static ecgberht.Ecgberht.getGs;
 
 public class WraithAgent extends Agent implements Comparable<Unit> {
 
-    private static final Logger logger = LoggerFactory.getLogger(WraithAgent.class);
     public Wraith unit;
     public String name;
     private Set<UnitInfo> airAttackers = new TreeSet<>();
@@ -73,7 +70,8 @@ public class WraithAgent extends Agent implements Comparable<Unit> {
             }
             return false;
         } catch (Exception e) {
-            logger.error("Exception occurred in WraithAgent", e);
+            System.err.println("Exception WraithAgent");
+            e.printStackTrace();
         }
         return false;
     }
@@ -116,7 +114,7 @@ public class WraithAgent extends Agent implements Comparable<Unit> {
         return Util.chooseAttackPosition(unit.getPosition(), true);
     }
 
-    private double calculateHarassTargetScore(UnitInfo u){
+    public double calculateHarassTargetScore(UnitInfo u){
         double unitDistance = unitInfo.toUnitInfoDistance().getDistance(u);
         double harassTargetScore;
         if (u.unitType.isWorker()) {

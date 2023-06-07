@@ -21,7 +21,7 @@ public class ChooseExpand extends Action {
     @Override
     public State execute() {
         try {
-            String strat = gameState.getStrat().name;
+            String strat = gameState.getStrategyFromManager().getName();
             if (strat.equals("ProxyBBS") || strat.equals("ProxyEightRax") || ((strat.equals("JoyORush") || strat.equals("TheNitekat")) && gameState.getCash().first <= 550))
                 return State.FAILURE;
             if (strat.equals("FullMech") && (gameState.myArmy.stream().noneMatch(u -> u.unit instanceof SiegeTank) || !gameState.getPlayer().hasResearched(TechType.Tank_Siege_Mode)) && gameState.firstExpand)
@@ -35,7 +35,7 @@ public class ChooseExpand extends Action {
             if (strat.equals("PlasmaWraithHell") && Util.countUnitTypeSelf(UnitType.Terran_Command_Center) > 2) {
                 return State.FAILURE;
             }
-            if (gameState.iReallyWantToExpand || (gameState.getCash().first >= 550 && gameState.getArmySize() >= gameState.getStrat().armyForExpand) || (strat.equals("14CC") && gameState.supplyMan.getSupplyUsed() == 28)) {
+            if (gameState.iReallyWantToExpand || (gameState.getCash().first >= 550 && gameState.getArmySize() >= gameState.getStrategyFromManager().getArmyForExpand()) || (strat.equals("14CC") && gameState.supplyMan.getSupplyUsed() == 28)) {
                 gameState.chosenToBuild = UnitType.Terran_Command_Center;
                 return State.SUCCESS;
             }
@@ -47,7 +47,7 @@ public class ChooseExpand extends Action {
             int workers = gameState.workerIdle.size();
             for (Integer wt : gameState.mineralsAssigned.values()) workers += wt;
             if (gameState.mineralsAssigned.size() * 2 <= workers - 1 &&
-                    gameState.getArmySize() >= gameState.getStrat().armyForExpand) {
+                    gameState.getArmySize() >= gameState.getStrategyFromManager().getArmyForExpand()) {
                 gameState.chosenToBuild = UnitType.Terran_Command_Center;
                 return State.SUCCESS;
             }
