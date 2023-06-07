@@ -267,56 +267,74 @@ public class DebugManager {
     }
 }
 
-public abstract class TextSetting{
-    private boolean setting;
-    private abstract String setting_name="";
-    private abstract String sending_name="";
+abstract class TextSetting{
+    protected boolean setting;
 
-    //setting config manager
-    private String setting_default =  'setting = ConfigManager.getConfig().ecgConfig.';
-    private String setting_ConfigManager = setting_default + setting_name+";"
-
-    //sending Text
-    private String sending_Text_enabled = sending_name +" enabled"
-    private String sending_Text_disabled = sending_name +" disabled"
-
-    //setting_debugText
-    private String setting_debugText = "ConfigManager.getConfig().ecgConfig." + setting_name+"= !setting;"
+    protected abstract void settingConfigManager();
+    protected abstract void sendText();
+    protected abstract void setting_debugText();
 
     public void doInteraction(CameraModule skycladObserver){
-        exec(setting_ConfigManager);
-        Util.sendText(!setting ? sending_Text_enabled : sending_Text_disabled );
-        exec(setting_debugText);
+        settingConfigManager();
+        sendText();
+        setting_debugText();
     }
 }
 
-public class TextSetting_dt extends TextSetting{
-    TextSetting_dt(){
-        super();
-        setting_name = "debugText";
-        sending_name = "debugText";
+class TextSetting_dt extends TextSetting{
+    @Override
+    protected void setting_ConfigManager(){
+        setting = ConfigManager.getConfig().ecgConfig.debugText;
     }
-   
-}
-public class TextSetting_dc extends TextSetting{
-    TextSetting_dc(){
-        super();
-        setting_name = "debugConsole";
-        sending_name = "debugConsole";
+    @Override
+    protected void sendText(){
+        Util.sendText(!setting ? "debugText enabled" : "debugText disabled");
     }
-}
-public class TextSetting_ds extends TextSetting{
-    TextSetting_ds(){
-        super();
-        setting_name = "debugScreen";
-        sending_name = "debugScreen";
+    @Override
+    protected void setting_debugText(){
+        ConfigManager.getConfig().ecgConfig.debugText = !setting;
     }
 }
-public class TextSetting_obs extends TextSetting{
-    TextSetting_obs(){
-        super();
-        setting_name = 'enableSkyCladObserver';
-        sending_name = "Observer";
+class TextSetting_dc extends TextSetting{
+    @Override
+    protected void setting_ConfigManager(){
+        setting = ConfigManager.getConfig().ecgConfig.debugConsole;
+    }
+    @Override
+    protected void sendText(){
+        Util.sendText(!setting ? "debugConsole enabled" : "debugConsole disabled");
+    }
+    @Override
+    protected void setting_debugText(){
+        ConfigManager.getConfig().ecgConfig.debugConsole = !setting;
+    }
+}
+class TextSetting_ds extends TextSetting{
+    @Override
+    protected void setting_ConfigManager(){
+        setting = ConfigManager.getConfig().ecgConfig.debugScreen;
+    }
+    @Override
+    protected void sendText(){
+        Util.sendText(!setting ? "debugScreen enabled" : "debugScreen disabled");
+    }
+    @Override
+    protected void setting_debugText(){
+        ConfigManager.getConfig().ecgConfig.debugScreen = !setting;
+    }
+}
+class TextSetting_obs extends TextSetting{
+    @Override
+    protected void setting_ConfigManager(){
+        setting = ConfigManager.getConfig().ecgConfig.enableSkyCladObserver;
+    }
+    @Override
+    protected void sendText(){
+        Util.sendText(!setting ? "Observer enabled" : "Observer disabled");
+    }
+    @Override
+    protected void setting_debugText(){
+        ConfigManager.getConfig().ecgConfig.enableSkyCladObserver = !setting;
     }
     @Override
     public void doInteraction(CameraModule skycladObserver){
@@ -324,19 +342,33 @@ public class TextSetting_obs extends TextSetting{
         skycladObserver.toggle();
     }
 }
-public class TextSetting_sounds extends TextSetting{
-    TextSetting_sounds(){
-        super();
-        setting_name = "sounds";
-        sending_name = "Sounds";
+class TextSetting_sounds extends TextSetting{
+    @Override
+    protected void setting_ConfigManager(){
+        setting = ConfigManager.getConfig().ecgConfig.sounds;
+    }
+    @Override
+    protected void sendText(){
+        Util.sendText(!setting ? "Sounds Effects enabled" : "Sounds Effects disabled");
+    }
+    @Override
+    protected void setting_debugText(){
+        ConfigManager.getConfig().ecgConfig.sounds = !setting;
     }
     
 }
-public class TextSetting_noattack extends TextSetting{
-    TextSetting_noattack(){
-        super();
-        setting_name = "debugDisableAttack";
-        sending_name = "Debug Attack";
+class TextSetting_noattack extends TextSetting{
+    @Override
+    protected void setting_ConfigManager(){
+        setting = ConfigManager.getConfig().ecgConfig.debugDisableAttack;
+    }
+    @Override
+    protected void sendText(){
+        Util.sendText(!setting ? "Debug Attack enabled" : "Debug Attack disabled");
+    }
+    @Override
+    protected void setting_debugText(){
+        ConfigManager.getConfig().ecgConfig.debugDisableAttack = !setting;
     }
     
 }
