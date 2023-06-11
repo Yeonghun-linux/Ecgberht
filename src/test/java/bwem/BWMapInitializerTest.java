@@ -1,5 +1,0 @@
-package bwem;
-
-
-class BWMapInitializerTest {
-}

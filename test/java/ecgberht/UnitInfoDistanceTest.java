@@ -1,16 +1,28 @@
 package ecgberht;
 
+
+
+import org.junit.jupiter.api.BeforeEach;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+
 import org.junit.jupiter.api.Test;
 import org.openbw.bwapi4j.Position;
 import org.openbw.bwapi4j.unit.PlayerUnit;
+
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 
 
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
 
 class UnitInfoDistanceTest {
 
@@ -26,7 +38,9 @@ class UnitInfoDistanceTest {
         unitInfoDistance = new UnitInfoDistance(unitInfo);
     }
 
-    @DisplayName("유닛과 좌표간 거리")
+
+
+
     @Test
     void testGetDistanceUnitAndDiStance(){
         int expectedDistance = 13;
@@ -35,7 +49,10 @@ class UnitInfoDistanceTest {
         assertEquals(expectedDistance2, unitInfoDistance.getDistance(new Position(40, 40)));
     }
 
-    @DisplayName("유닛과 유닛간 거리")
+
+
+
+
     @Test
     void testGetDistanceUnitAndUnit(){
         PlayerUnit unit1 = mock(PlayerUnit.class);
@@ -50,7 +67,7 @@ class UnitInfoDistanceTest {
         assertEquals(expectedDistance2, unitInfoDistance.getDistance(unit2));
     }
 
-    @DisplayName("유닛과 유닛정보 간 거리")
+
     @Test
     void testGetDistanceUnitAndUnitInfo(){
         PlayerUnit target = mock(PlayerUnit.class);
@@ -67,7 +84,7 @@ class UnitInfoDistanceTest {
         assertEquals(expectedDistance2, unitInfoDistance.getDistance(targetInfo));
     }
 
-    @DisplayName("유닛과 유닛정보 간 예측 거리")
+
     @Test
     void testGetPredictedDistanceUnitAndUnitInfoWithoutFrame(){
         PlayerUnit target = mock(PlayerUnit.class);
@@ -82,7 +99,6 @@ class UnitInfoDistanceTest {
         assertEquals(expectedDistance1, unitInfoDistance.getPredictedDistance(targetInfo));
     }
 
-    @DisplayName("유닛과 유닛정보 간 예측 거리")
     @Test
     void testGetPredictedDistanceUnitAndUnitInfoWithFrame(){
         PlayerUnit target = mock(PlayerUnit.class);
